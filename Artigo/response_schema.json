@@ -1,0 +1,29 @@
+{
+  "responseMimeType": "application/json",
+  "responseSchema": {
+    "type": "OBJECT",
+    "properties": {
+      "findings": {
+        "type": "ARRAY",
+        "items": {
+          "type": "OBJECT",
+          "properties": {
+            "tipo": {
+              "type": "STRING",
+              "enum": ["CPU", "GC", "DrawCalls", "GPU", "Memoria", "Geral"]
+            },
+            "causa_raiz": { "type": "STRING" },
+            "codigo_refatorado": { "type": "STRING" },
+            "explicacao_didatica": { "type": "STRING" }
+          },
+          "required": ["tipo", "causa_raiz", "codigo_refatorado", "explicacao_didatica"],
+          "propertyOrdering": ["tipo", "causa_raiz", "codigo_refatorado", "explicacao_didatica"]
+        }
+      },
+      "dicas_level_design": { "type": "STRING", "nullable": true }
+    },
+    "required": ["findings"],
+    "propertyOrdering": ["findings", "dicas_level_design"]
+  },
+  "temperature": 0
+}

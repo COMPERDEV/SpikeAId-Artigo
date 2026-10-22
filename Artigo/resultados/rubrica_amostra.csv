@@ -1,0 +1,489 @@
+caso;condicao;repeticao;tipo;causa_raiz;codigo_refatorado;explicacao_didatica;nota_didatica_1a5;nota_pertinencia_codigo_1a5;avaliador
+"G1_CPU_02";"amador";"1";"CPU";"A execucao repetitiva de 'GameObject.FindObjectsOfType<GameObject>()' dentro do metodo Update() forca o motor a varrer toda a hierarquia de objetos na memoria nativa em C++, convertendo os ponteiros e alocando novos arrays gerenciados por frame, esgotando o tempo de quadro da CPU (402.50ms).";"using System;
+using System.Text;
+using UnityEngine;
+
+namespace PerformanceAdvisor.StressTest
+{
+    public class StressTestScene : MonoBehaviour
+    {
+        public bool stressGc = false;
+        public bool stressCpu = false;
+        public bool stressDraw = false;
+        public GameObject testPrefab;
+
+        [Range(1, 20)]
+        public float spawnRadius = 10f;
+
+        [Range(1, 50)]
+        public int cubesPerFrame = 1;
+
+        public bool useUniqueMaterials = false;
+
+        [Range(1, 512)]
+        public int cpuScansPerFrame = 1;
+
+        public int emptyObjects = 0;
+        public int gcConcatIterations = 1000;
+        public int gcArrayAllocs = 0;
+        public int overdrawLayers = 0;
+        public Material overdrawMaterial;
+
+        [Range(0, 2000)]
+        public int prepopulateCount = 0;
+
+        private StringBuilder _sb;
+        private MaterialPropertyBlock _mpb;
+        private static readonly int ColorProp = Shader.PropertyToID(""_Color"");
+
+        private void Awake()
+        {
+            _sb = new StringBuilder(4096);
+            _mpb = new MaterialPropertyBlock();
+        }
+
+        private void Start()
+        {
+            if (prepopulateCount > 0 && testPrefab != null)
+            {
+                for (int i = 0; i < prepopulateCount; i++)
+                {
+                    SpawnOne();
+                }
+            }
+
+            for (int i = 0; i < emptyObjects; i++)
+            {
+                new GameObject(""Empty_"" + i);
+            }
+
+            if (overdrawLayers > 0 && overdrawMaterial != null)
+            {
+                BuildOverdrawLayers();
+            }
+        }
+
+        private void BuildOverdrawLayers()
+        {
+            Camera cam = Camera.main;
+            if (cam == null) return;
+            float halfFov = cam.fieldOfView * 0.5f * Mathf.Deg2Rad;
+            for (int i = 0; i < overdrawLayers; i++)
+            {
+                float d = cam.nearClipPlane + 0.05f + i * 0.001f;
+                float h = 2f * d * Mathf.Tan(halfFov) * 1.1f;
+                var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var col = quad.GetComponent<Collider>();
+                if (col != null) Destroy(col);
+                quad.name = ""Overdraw_"" + i;
+                quad.transform.SetParent(cam.transform, false);
+                quad.transform.localPosition = new Vector3(0f, 0f, d);
+                quad.transform.localScale = new Vector3(h * cam.aspect, h, 1f);
+                var rend = quad.GetComponent<Renderer>();
+                if (rend != null) rend.sharedMaterial = overdrawMaterial;
+            }
+        }
+
+        private void Update()
+        {
+            if (stressGc)
+            {
+                _sb.Clear();
+                for (int i = 0; i < gcConcatIterations; i++)
+                {
+                    _sb.Append(i);
+                }
+            }
+
+            if (stressDraw && testPrefab != null)
+            {
+                int n = Mathf.Max(1, cubesPerFrame);
+                for (int i = 0; i < n; i++)
+                {
+                    SpawnOne();
+                }
+            }
+        }
+
+        private void SpawnOne()
+        {
+            var clone = Instantiate(testPrefab, UnityEngine.Random.insideUnitSphere * spawnRadius, Quaternion.identity);
+            if (useUniqueMaterials)
+            {
+                var rend = clone.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    rend.GetPropertyBlock(_mpb);
+                    _mpb.SetColor(ColorProp, new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value));
+                    rend.SetPropertyBlock(_mpb);
+                }
+            }
+        }
+    }
+}";"Buscar objetos na cena com FindObjectsOfType durante o Update e como procurar uma agulha num palheiro 60 vezes por segundo. O processador precisa parar tudo e olhar objeto por objeto existente no jogo. Em vez disso, guarde a referencia do objeto em uma variavel no inicio (Start ou Awake) ou registre os objetos em uma lista quando eles forem criados.";"";"";""
+"G1_CPU_02";"amador";"1";"GC";"Concatenacao de strings usando o operador '+' dentro de loops e criacao continua de novos arrays ('new object[10000]') a cada quadro geram quase 4MB de lixo por frame, acionando coletas frequentes do Garbage Collector com pausas de 16.69ms.";"using System;
+using System.Text;
+using UnityEngine;
+
+namespace PerformanceAdvisor.StressTest
+{
+    public class StressTestScene : MonoBehaviour
+    {
+        public bool stressGc = false;
+        public bool stressCpu = false;
+        public bool stressDraw = false;
+        public GameObject testPrefab;
+
+        [Range(1, 20)]
+        public float spawnRadius = 10f;
+
+        [Range(1, 50)]
+        public int cubesPerFrame = 1;
+
+        public bool useUniqueMaterials = false;
+
+        [Range(1, 512)]
+        public int cpuScansPerFrame = 1;
+
+        public int emptyObjects = 0;
+        public int gcConcatIterations = 1000;
+        public int gcArrayAllocs = 0;
+        public int overdrawLayers = 0;
+        public Material overdrawMaterial;
+
+        [Range(0, 2000)]
+        public int prepopulateCount = 0;
+
+        private StringBuilder _sb;
+        private MaterialPropertyBlock _mpb;
+        private static readonly int ColorProp = Shader.PropertyToID(""_Color"");
+
+        private void Awake()
+        {
+            _sb = new StringBuilder(4096);
+            _mpb = new MaterialPropertyBlock();
+        }
+
+        private void Start()
+        {
+            if (prepopulateCount > 0 && testPrefab != null)
+            {
+                for (int i = 0; i < prepopulateCount; i++)
+                {
+                    SpawnOne();
+                }
+            }
+
+            for (int i = 0; i < emptyObjects; i++)
+            {
+                new GameObject(""Empty_"" + i);
+            }
+
+            if (overdrawLayers > 0 && overdrawMaterial != null)
+            {
+                BuildOverdrawLayers();
+            }
+        }
+
+        private void BuildOverdrawLayers()
+        {
+            Camera cam = Camera.main;
+            if (cam == null) return;
+            float halfFov = cam.fieldOfView * 0.5f * Mathf.Deg2Rad;
+            for (int i = 0; i < overdrawLayers; i++)
+            {
+                float d = cam.nearClipPlane + 0.05f + i * 0.001f;
+                float h = 2f * d * Mathf.Tan(halfFov) * 1.1f;
+                var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var col = quad.GetComponent<Collider>();
+                if (col != null) Destroy(col);
+                quad.name = ""Overdraw_"" + i;
+                quad.transform.SetParent(cam.transform, false);
+                quad.transform.localPosition = new Vector3(0f, 0f, d);
+                quad.transform.localScale = new Vector3(h * cam.aspect, h, 1f);
+                var rend = quad.GetComponent<Renderer>();
+                if (rend != null) rend.sharedMaterial = overdrawMaterial;
+            }
+        }
+
+        private void Update()
+        {
+            if (stressGc)
+            {
+                _sb.Clear();
+                for (int i = 0; i < gcConcatIterations; i++)
+                {
+                    _sb.Append(i);
+                }
+            }
+
+            if (stressDraw && testPrefab != null)
+            {
+                int n = Mathf.Max(1, cubesPerFrame);
+                for (int i = 0; i < n; i++)
+                {
+                    SpawnOne();
+                }
+            }
+        }
+
+        private void SpawnOne()
+        {
+            var clone = Instantiate(testPrefab, UnityEngine.Random.insideUnitSphere * spawnRadius, Quaternion.identity);
+            if (useUniqueMaterials)
+            {
+                var rend = clone.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    rend.GetPropertyBlock(_mpb);
+                    _mpb.SetColor(ColorProp, new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value));
+                    rend.SetPropertyBlock(_mpb);
+                }
+            }
+        }
+    }
+}";"Em C#, textos (strings) e arrays nao podem mudar de tamanho depois de criados. Quando voce junta textos com '+', o sistema cria um texto inteiramente novo e joga o antigo fora. No Update, isso cria montanhas de lixo na memoria RAM. Quando o caminhao do lixo (Garbage Collector) passa para limpar, o jogo inteiro congela por alguns milissegundos. Usar StringBuilder e reaproveitar colecoes evita que esse lixo seja gerado.";"";"";""
+"G1_CPU_02";"profissional";"1";"CPU";"No frame 160, o tempo de CPU atingiu 402.50ms, superando severamente o orcamento estabelecido de 16.7ms/frame (alvo de 60 FPS). O culprit_stack identifica que a execucao foi dominada pelo metodo StressTestScene.Update() (21.33ms na chamada interna monitorada), onde ocorrem buscas custosas na hierarquia por meio de GameObject.FindObjectsOfType<GameObject>() iteradas em laco (stressCpu), somadas a concatenacoes repetitivas de string em laco (stressGc).";"private void Update()
+{
+    if (stressGc)
+    {
+        // Evita concatenacao repetida de strings em laco que sobrecarrega a CPU e gera lixo na memoria
+    }
+
+    if (stressCpu)
+    {
+        // A busca exaustiva por GameObject.FindObjectsOfType foi removida do Update para nao bloquear a CPU a cada quadro
+    }
+
+    if (stressDraw && testPrefab != null)
+    {
+        int n = Mathf.Max(1, cubesPerFrame);
+        for (int i = 0; i < n; i++) SpawnOne();
+    }
+}";"O tempo de CPU (a unidade central de processamento do computador que executa a logica do jogo) ficou muito acima do limite maximo de 16.7 milissegundos por quadro necessarios para alcancar uma taxa fluida de 60 FPS (quadros por segundo). O metodo Update e executado a cada quadro renderizado na tela; dentro dele, a chamada a GameObject.FindObjectsOfType forca a Unity a vasculhar todos os objetos ativos da cena, uma operacao extremamente lenta e pesada. Ao mesmo tempo, concatenar textos dentro de um laco de repeticao cria dezenas de copias temporarias na memoria, consumindo ciclos preciosos do processador. Para corrigir picos de processamento, buscas globais e operacoes repetitivas pesadas devem ser evitadas dentro de Update.";"";"";""
+"G3_DRAWCALLS_01";"amador";"1";"DrawCalls";"Excesso massivo de chamadas de desenho individuais (pico de 13.967 contra o teto de 2.579), saturando o barramento CPU-GPU e causando gargalo crítico na GPU (41.78 ms). Isso decorre da ausência de agrupamento de malhas, falta de instanciamento de GPU (GPU Instancing) e excesso de materiais únicos ou objetos renderizados individualmente sem culling adequado.";"using UnityEngine;\n\n[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]\npublic class SimpleMeshCombiner : MonoBehaviour\n{\n    [ContextMenu(\""Combinar Malhas\"")]\n    public void CombineMeshes()\n    {\n        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();\n        CombineInstance[] combine = new CombineInstance[meshFilters.Length - 1];\n        int combineIndex = 0;\n        MeshFilter parentFilter = GetComponent<MeshFilter>();\n\n        for (int i = 0; i < meshFilters.Length; i++)\n        {\n            if (meshFilters[i] == parentFilter) continue;\n            combine[combineIndex].mesh = meshFilters[i].sharedMesh;\n            combine[combineIndex].transform = transform.worldToLocalMatrix * meshFilters[i].transform.localToWorldMatrix;\n            meshFilters[i].gameObject.SetActive(false);\n            combineIndex++;\n        }\n\n        Mesh finalMesh = new Mesh();\n        finalMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;\n        finalMesh.CombineMeshes(combine, true, true);\n        parentFilter.sharedMesh = finalMesh;\n        gameObject.SetActive(true);\n    }\n}";"Pense em cada Draw Call como um garçom levando um prato por vez da cozinha (CPU) para a mesa do cliente (GPU). Com quase 14.000 pedidos separados, o trânsito trava e a placa de vídeo fica sobrecarregada (41.78 ms). O código fornecido atua unindo centenas de pequenos objetos e vegetações que usam o mesmo material em uma única grande travessa (uma única malha combinada), reduzindo centenas de requisições a apenas uma única chamada de desenho.";"";"";""
+"G3_DRAWCALLS_01";"profissional";"1";"DrawCalls";"No frame 2420, a quantidade de draw calls atingiu 13967, superando o teto definido de 2579 draw calls para a sessao. A amostra nao contem culprit_stack e script_sources nao foi fornecido, inviabilizando a apresentacao de codigo refatorado.";"";"Uma draw call (chamada de desenho) e uma ordem que o processador (CPU) envia para a placa de video (GPU) renderizar um determinado objeto na tela. Quando ha um numero muito elevado de draw calls em um unico quadro, o processador pode ficar sobrecarregado apenas organizando e despachando essas instrucoes, o que reduz o desempenho do jogo.";"";"";""
+"G4_GPU_04";"amador";"1";"GPU";"Tempo de GPU crítico em 30.19ms (acima do orçamento de 16.7ms para 60 FPS), com 514 violações registradas. Como a contagem de Draw Calls (914) está confortável dentro do orçamento de 2579, o gargalo reside na taxa de preenchimento (fill-rate), alto custo de fragment shader, sombras dinâmicas de alta resolução ou render scale elevado para a GTX 1650.";"using UnityEngine;
+using UnityEngine.Rendering;
+
+public class DynamicGpuPerformanceManager : MonoBehaviour
+{
+    [Header(""Metas de Desempenho"")]
+    [SerializeField] private float targetFrameTimeMs = 16.67f;
+    [SerializeField] private float toleranceMs = 1.5f;
+
+    [Header(""Limites de Escala de Renderização"")]
+    [Range(0.5f, 1.0f)] [SerializeField] private float minRenderScale = 0.65f;
+    [Range(0.5f, 1.0f)] [SerializeField] private float maxRenderScale = 1.0f;
+    [SerializeField] private float scaleStep = 0.05f;
+    [SerializeField] private float adjustmentInterval = 0.5f;
+
+    private float currentScale = 1.0f;
+    private float timer = 0f;
+    private FrameTiming[] timings = new FrameTiming[1];
+
+    private void Start()
+    {
+        currentScale = maxRenderScale;
+        ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
+        QualitySettings.shadowCascades = 2;
+        QualitySettings.shadowDistance = Mathf.Min(QualitySettings.shadowDistance, 40f);
+    }
+
+    private void Update()
+    {
+        timer += Time.unscaledDeltaTime;
+        if (timer < adjustmentInterval) return;
+        timer = 0f;
+
+        FrameTimingManager.CaptureFrameTimings();
+        uint captured = FrameTimingManager.GetLatestTimings(1, timings);
+
+        float gpuTime = captured > 0 ? (float)timings[0].gpuFrameTime : (Time.unscaledDeltaTime * 1000f);
+
+        if (gpuTime > (targetFrameTimeMs + toleranceMs) && currentScale > minRenderScale)
+        {
+            currentScale = Mathf.Max(minRenderScale, currentScale - scaleStep);
+            ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
+        }
+        else if (gpuTime < (targetFrameTimeMs - toleranceMs) && currentScale < maxRenderScale)
+        {
+            currentScale = Mathf.Min(maxRenderScale, currentScale + scaleStep);
+            ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
+        }
+    }
+}";"O computador está gastando muito tempo para pintar cada pixel na tela (gargalo de GPU/Fill-rate), e não para emitir ordens de desenho (Draw Calls). Para corrigir isso sem perder fluidez na taxa de 60 FPS, criamos um gerenciador que monitora o tempo de GPU e reduz de maneira sutil a resolução interna de renderização e a distância das sombras quando o hardware sofre lentidão, restaurando-a assim que o peso visual diminui. Além disso, o script foi projetado para reaproveitar estruturas de dados em memória, prevenindo coletas do Garbage Collector.";"";"";""
+"G4_GPU_04";"profissional";"1";"GPU";"No frame 2695, o tempo de GPU atingiu 30.19 ms, excedendo o teto de 16.7 ms por quadro estabelecido para o alvo de 60 FPS. A amostra não inclui culprit_stack nem arquivos em script_sources, tornando inviável identificar métodos específicos ou fornecer código refatorado.";"";"A GPU (Unidade de Processamento Gráfico) é a placa de vídeo responsável por calcular e colorir os pixels na tela. Quando o tempo de GPU passa do orçamento de 16.7 ms, a taxa de quadros cai. Como o gargalo está no processamento gráfico e não no processador central (CPU), o ajuste deve focar em renderização: reduzir a resolução de renderização interna, simplificar shaders (programas que calculam cores e luzes nos materiais), otimizar ou desligar efeitos caros de pós-processamento, reduzir a qualidade das sombras e diminuir o overdraw (quando vários objetos transparentes são desenhados um por cima do outro no mesmo pixel).";"";"";""
+"G5_FALTANTE_03";"amador";"1";"GC";"Alocação pontual massiva de aproximadamente 6,7 MB (6.706.563 bytes) no frame 1643, forçando o Garbage Collector a disparar uma coleta síncrona com duração de 23,18 ms. Essa pausa de quase 1 frame inteiro consome quase todo o orçamento de 27,0 ms, gerando engasgos (stutter/micro-freezes) perceptíveis na gameplay. A causa típica é a instanciação dinâmica de buffers, uso intensivo de LINQ, criação de arrays temporários dentro de loops de atualização ou deserialização pesada sem reaproveitamento de memória.";"using System.Buffers; using UnityEngine; public class OptimizedDataProcessor : MonoBehaviour { [SerializeField] private int bufferSize = 100000; private byte[] sharedBuffer; private void Awake() { sharedBuffer = new byte[bufferSize]; } public void ProcessWithoutAllocations() { byte[] rentedBuffer = ArrayPool<byte>.Shared.Rent(bufferSize); try { for (int i = 0; i < bufferSize; i++) { rentedBuffer[i] = (byte)(i % 256); } System.Array.Copy(rentedBuffer, sharedBuffer, bufferSize); } finally { ArrayPool<byte>.Shared.Return(rentedBuffer, clearArray: false); } } }";"Imagine a memória RAM do computador como uma mesa de trabalho. Cada vez que o seu script pede para criar um novo bloco de dados sem reaproveitar nada, é como se ele usasse centenas de pratos descartáveis e os jogasse no chão. Quando o chão enche (neste caso, com 6,7 megabytes de uma só vez), o 'lixeiro' (Garbage Collector) precisa congelar o jogo inteiro por 23 milissegundos para recolher todo o lixo. A solução é usar o conceito de 'Object/Buffer Pooling', que funciona como lavar e reutilizar a mesma louça, garantindo que o jogo rode liso e sem travamentos.";"";"";""
+"G5_FALTANTE_03";"profissional";"1";"GC";"No frame 1643, o tempo de coleta de lixo (gc_collect_ms) foi de 23.18 ms para um cpu_ms de 21.61 ms (com 6.706.563 bytes alocados no frame), explicando praticamente a totalidade do tempo de processamento da CPU no quadro. Não é possível gerar codigo_refatorado porque a amostra não contém culprit_stack e não foram fornecidos arquivos em script_sources.";"";"O Garbage Collector (coletor de lixo, ou GC) é um mecanismo automático da Unity que recupera a memória que o jogo não está mais usando. Quando o jogo cria muitos dados temporários na memória gerenciada, o coletor precisa interromper ou desacelerar a execução do jogo para limpar esses restos, o que é chamado de pausa de coleta. No frame 1643, essa coleta consumiu 23.18 ms, dominando o tempo de CPU. Para corrigir isso no código, seria necessário identificar no Profiler quais funções estão alocando objetos temporários e reutilizar instâncias ou buffers em vez de alocar novos dados a cada quadro.";"";"";""
+"G5_FALTANTE_04";"amador";"1";"GC";"Alocação massiva de memória na Heap gerenciada (aproximadamente 7.62 MB em um único frame), disparando uma coleta de lixo síncrona (GC.Collect) que pausou a CPU por 24.57ms. Quando somado ao tempo de processamento da CPU (22.67ms), o frame totalizou 47.24ms, violando o orçamento de 28.57ms (35 FPS) e causando engasgo severo (stuttering).";"using UnityEngine;
+using System.Collections.Generic;
+
+public class ProjectilePoolManager : MonoBehaviour
+{
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private int initialPoolSize = 100;
+
+    private readonly Queue<GameObject> _pool = new Queue<GameObject>();
+
+    private void Awake()
+    {
+        for (int i = 0; i < initialPoolSize; i++)
+        {
+            CreateNewInstance();
+        }
+    }
+
+    private GameObject CreateNewInstance()
+    {
+        GameObject instance = Instantiate(projectilePrefab, transform);
+        instance.SetActive(false);
+        _pool.Enqueue(instance);
+        return instance;
+    }
+
+    public GameObject Spawn(Vector3 position, Quaternion rotation)
+    {
+        GameObject obj = _pool.Count > 0 ? _pool.Dequeue() : CreateNewInstance();
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+        obj.SetActive(true);
+        return obj;
+    }
+
+    public void Despawn(GameObject obj)
+    {
+        obj.SetActive(false);
+        _pool.Enqueue(obj);
+    }
+}";"Quando criamos ou destruímos muitos objetos de uma vez (ou alocamos grandes listas/arrays repetidamente), a Unity gera 'lixo' na memória RAM gerenciada. Quando esse lixo acumula, o Garbage Collector (coletor de lixo) precisa pausar a execução do jogo inteiro para varrer a memória, provocando pequenas travadas visíveis (stutter). Usando uma técnica chamada Object Pooling (piscina de objetos), criamos os objetos apenas uma vez no carregamento e apenas os ativamos/desativamos conforme a necessidade, reduzindo a alocação de lixo a zero durante a gameplay.";"";"";""
+"G5_FALTANTE_04";"profissional";"1";"GC";"No frame 1915, a coleta de lixo registrou gc_collect_ms de 24.57 ms frente a um cpu_ms de 22.67 ms (com gc_bytes de 7987847 bytes, draw_calls em 7 e gpu_ms em 9.17 ms). O tempo de coleta de 24.57 ms explica diretamente o custo de CPU registrado no frame, aproximando a execução do orçamento de 28.6 ms/frame. Não é possível fornecer codigo_refatorado porque a amostra não contém culprit_stack e nenhum script foi enviado em script_sources.";"";"O Garbage Collector (GC, ou Coletor de Lixo) é o mecanismo automático do C# que limpa a memória de objetos descartados. Quando ele é acionado, a CPU (Unidade Central de Processamento) precisa interromper a lógica do jogo para fazer a varredura e limpeza, tempo medido pelo gc_collect_ms. No frame 1915, a pausa do coletor durou 24.57 ms, consumindo praticamente todo o tempo da CPU (22.67 ms). Para que possamos reescrever o código causador desse acúmulo, é necessário habilitar a captura do culprit_stack (pilha de chamadas do Profiler) para identificar as classes e métodos responsáveis pelas alocações.";"";"";""
+"G6_ENGANOSA_03";"amador";"1";"GC";"Alocacao massiva de lixo de memoria no metodo Update provocada por concatenacao repetitiva de strings (s += i.ToString()), alocacao de novos arrays de objetos a cada frame e chamadas recursivas a FindObjectsOfType. O Garbage Collector do C#/Unity entra em execucao gerando um pico de coleta de 23.18ms e alocando mais de 6.7MB em um unico frame.";"using System;
+using System.Text;
+using UnityEngine;
+
+namespace PerformanceAdvisor.StressTest
+{
+    public class StressTestScene : MonoBehaviour
+    {
+        public bool stressGc = false;
+        public bool stressCpu = false;
+        public bool stressDraw = false;
+
+        public GameObject testPrefab;
+
+        [Range(1, 20)]
+        public float spawnRadius = 10f;
+
+        [Range(1, 50)]
+        public int cubesPerFrame = 1;
+
+        public bool useUniqueMaterials = false;
+
+        [Range(1, 512)]
+        public int cpuScansPerFrame = 1;
+
+        public int emptyObjects = 0;
+        public int gcConcatIterations = 1000;
+        public int gcArrayAllocs = 0;
+        public int overdrawLayers = 0;
+        public Material overdrawMaterial;
+
+        [Range(0, 2000)]
+        public int prepopulateCount = 0;
+
+        private StringBuilder _cachedStringBuilder;
+        private MaterialPropertyBlock _propertyBlock;
+        private static readonly int ColorPropertyId = Shader.PropertyToID(""_Color"");
+
+        private void Awake()
+        {
+            _cachedStringBuilder = new StringBuilder(4096);
+            _propertyBlock = new MaterialPropertyBlock();
+        }
+
+        private void Start()
+        {
+            if (prepopulateCount > 0 && testPrefab != null)
+            {
+                for (int i = 0; i < prepopulateCount; i++)
+                {
+                    SpawnOne();
+                }
+            }
+
+            for (int i = 0; i < emptyObjects; i++)
+            {
+                new GameObject(string.Concat(""Empty_"", i));
+            }
+
+            if (overdrawLayers > 0 && overdrawMaterial != null)
+            {
+                BuildOverdrawLayers();
+            }
+        }
+
+        private void BuildOverdrawLayers()
+        {
+            Camera cam = Camera.main;
+            if (cam == null) return;
+            float halfFov = cam.fieldOfView * 0.5f * Mathf.Deg2Rad;
+            for (int i = 0; i < overdrawLayers; i++)
+            {
+                float d = cam.nearClipPlane + 0.05f + i * 0.001f;
+                float h = 2f * d * Mathf.Tan(halfFov) * 1.1f;
+                var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                Destroy(quad.GetComponent<Collider>());
+                quad.name = string.Concat(""Overdraw_"", i);
+                quad.transform.SetParent(cam.transform, false);
+                quad.transform.localPosition = new Vector3(0f, 0f, d);
+                quad.transform.localScale = new Vector3(h * cam.aspect, h, 1f);
+                quad.GetComponent<Renderer>().sharedMaterial = overdrawMaterial;
+            }
+        }
+
+        private void Update()
+        {
+            if (stressGc)
+            {
+                _cachedStringBuilder.Clear();
+                for (int i = 0; i < gcConcatIterations; i++)
+                {
+                    _cachedStringBuilder.Append(i);
+                }
+            }
+
+            if (stressDraw && testPrefab != null)
+            {
+                int n = Mathf.Max(1, cubesPerFrame);
+                for (int i = 0; i < n; i++)
+                {
+                    SpawnOne();
+                }
+            }
+        }
+
+        private void SpawnOne()
+        {
+            var clone = Instantiate(
+                testPrefab,
+                UnityEngine.Random.insideUnitSphere * spawnRadius,
+                Quaternion.identity);
+
+            if (useUniqueMaterials)
+            {
+                var renderer = clone.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.GetPropertyBlock(_propertyBlock);
+                    _propertyBlock.SetColor(ColorPropertyId, new Color(
+                        UnityEngine.Random.value,
+                        UnityEngine.Random.value,
+                        UnityEngine.Random.value));
+                    renderer.SetPropertyBlock(_propertyBlock);
+                }
+            }
+        }
+    }
+}";"Em C#, strings sao imutaveis. Quando voce usa 's += i.ToString()', uma nova string e criada na memoria Managed Heap a cada ciclo do loop, descartando a anterior. Quando centenas ou milhares de objetos e strings temporarias sao criados no Update, a memoria se esgota rapidamente e o Garbage Collector (coletor de lixo) precisa parar o jogo momentaneamente (congelando o frame por 23ms) para varrer e limpar esses dados. A solucao e reusar buffers existentes com StringBuilder, evitar criar arrays descartaveis a cada frame e utilizar MaterialPropertyBlock para alterar cores sem instanciar copias unicas de materiais na memoria.";"";"";""
+"G6_ENGANOSA_03";"profissional";"1";"GC";"No frame 1643, o tempo gasto com coleta de lixo (gc_collect_ms) foi de 23.18 ms diante de um cpu_ms de 21.61 ms e de um orcamento de 27.0 ms/frame. O gc_collect_ms explica integralmente o pico de tempo da CPU no quadro. Foram alocados 6706563 bytes no frame, originados pelo metodo PerformanceAdvisor.StressTest.StressTestScene.Update(), que realiza concatenacoes continuas de strings em loop e alocacao de novos arrays a cada quadro, sobrecarregando a memoria gerenciada e acionando o GC.Alloc.";"private void Update() { if (stressCpu) { for (int k = 0; k < cpuScansPerFrame; k++) { var allObjects = GameObject.FindObjectsOfType<GameObject>(); GC.KeepAlive(allObjects); } } if (stressDraw && testPrefab != null) { int n = Mathf.Max(1, cubesPerFrame); for (int i = 0; i < n; i++) SpawnOne(); } }";"O Garbage Collector (coletor de lixo, ou GC) e um sistema automatico que varre a memoria para descartar objetos que o jogo nao usa mais. Quando ele roda, o processador pode sofrer uma pausa para organizar essa limpeza. No Unity, usar o operador '+' para juntar textos dentro da funcao Update (executada a cada quadro) cria dezenas de copias temporarias na memoria gerenciada (o Heap). No frame 1643, isso gerou mais de 6 megabytes de lixo em uma unica vez, forcando o coletor a parar o processador por 23.18 ms. Ao remover as alocacoes de strings e arrays descartaveis no Update, o Garbage Collector nao precisa intervir, mantendo a taxa de quadros estavel.";"";"";""

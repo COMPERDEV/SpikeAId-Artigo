@@ -1,0 +1,9 @@
+a2x2/resp/
+a2x2/sem_*.csv
+a2x2/com_*.csv
+qual/casos/
+qual/comp/
+qual/items.json
+qual/base.rsp
+qual/one.rsp
+qual/out.dll

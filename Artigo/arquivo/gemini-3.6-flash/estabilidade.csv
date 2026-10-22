@@ -1,0 +1,12 @@
+metrica;condicao;concordancia_media
+contagem_errada;amador;1.000
+dicas_ausentes;amador;1.000
+fabricacao_simbolo;amador;1.000
+fabricacao_simbolo_estrita;amador;1.000
+fabricacao_valor;amador;1.000
+formato_invalido;amador;1.000
+indeterminacao_indevida;amador;1.000
+teto_ausente_violado;amador;1.000
+tipo_errado;amador;1.000
+valida_porem_errada;amador;1.000
+vazamento_escopo;amador;1.000

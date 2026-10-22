@@ -1,0 +1,55 @@
+# Unity
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+[Rr]ecordings/
+
+# Unity / IDE generated project files (recreated on import)
+*.csproj
+*.sln
+*.slnx
+*.user
+*.suo
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# VS
+.vs/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+
+.claude/
+
+# Asset Store packs — licenciados pela conta Unity, cada dev importa o seu
+Assets/Synty/
+Assets/Synty.meta
+
+# Saída das ferramentas de diagnóstico do plugin — dado de máquina, não versionar
+Diagnostics/
+
+
+# Artefatos do build de Android (gerados pelo Gradle/adb, nao versionar)
+.utmp/
+Builds/
+
+# Artigo: logs brutos do Unity (captura, coleta, análise)
+Artigo/*.log

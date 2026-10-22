@@ -1,0 +1,198 @@
+com_amador__G1_CPU_01__r1__f1	1	113	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_01__r2__f1	0	0	
+com_amador__G1_CPU_01__r2__f2	0	0	
+com_amador__G1_CPU_01__r3__f1	0	0	
+com_amador__G1_CPU_01__r3__f2	0	0	
+com_amador__G1_CPU_01__r4__f1	0	0	
+com_amador__G1_CPU_01__r4__f2	0	0	
+com_amador__G1_CPU_01__r5__f1	1	224	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_01__r5__f2	0	0	
+com_amador__G1_CPU_02__r1__f1	0	0	
+com_amador__G1_CPU_02__r1__f2	0	0	
+com_amador__G1_CPU_02__r2__f1	0	0	
+com_amador__G1_CPU_02__r2__f2	0	0	
+com_amador__G1_CPU_02__r3__f1	0	0	
+com_amador__G1_CPU_02__r3__f2	0	0	
+com_amador__G1_CPU_02__r4__f1	0	0	
+com_amador__G1_CPU_02__r4__f2	0	0	
+com_amador__G1_CPU_02__r5__f1	0	0	
+com_amador__G1_CPU_02__r5__f2	0	0	
+com_amador__G1_CPU_03__r1__f1	0	0	
+com_amador__G1_CPU_03__r1__f2	0	0	
+com_amador__G1_CPU_03__r2__f1	1	280	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_03__r3__f1	0	0	
+com_amador__G1_CPU_03__r3__f2	0	0	
+com_amador__G1_CPU_03__r4__f1	1	125	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_03__r5__f1	0	0	
+com_amador__G1_CPU_03__r5__f2	0	0	
+com_amador__G1_CPU_04__r1__f1	0	0	
+com_amador__G1_CPU_04__r1__f2	0	0	
+com_amador__G1_CPU_04__r2__f1	0	0	
+com_amador__G1_CPU_04__r3__f1	0	0	
+com_amador__G1_CPU_04__r4__f1	0	0	
+com_amador__G1_CPU_04__r5__f1	1	122	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_04__r5__f2	1	91	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_05__r1__f1	1	68	error CS1056: Caractere inesperado '\'
+com_amador__G1_CPU_05__r1__f2	0	0	
+com_amador__G1_CPU_05__r2__f1	0	0	
+com_amador__G1_CPU_05__r2__f2	0	0	
+com_amador__G1_CPU_05__r3__f1	0	0	
+com_amador__G1_CPU_05__r3__f2	0	0	
+com_amador__G1_CPU_05__r4__f1	0	0	
+com_amador__G1_CPU_05__r4__f2	1	1	error CS0246: O nome do tipo ou do namespace "GameObject" n∆o pode ser encontrado (est† faltando uma diretiva using ou uma referància de assembly?)
+com_amador__G1_CPU_05__r5__f1	0	0	
+com_amador__G1_CPU_05__r5__f2	0	0	
+com_amador__G2_GC_01__r1__f1	0	0	
+com_amador__G2_GC_01__r1__f2	0	0	
+com_amador__G2_GC_01__r2__f1	0	0	
+com_amador__G2_GC_01__r2__f2	0	0	
+com_amador__G2_GC_01__r3__f1	0	0	
+com_amador__G2_GC_01__r3__f2	0	0	
+com_amador__G2_GC_01__r4__f1	0	0	
+com_amador__G2_GC_01__r4__f2	0	0	
+com_amador__G2_GC_01__r5__f1	0	0	
+com_amador__G2_GC_01__r5__f2	0	0	
+com_amador__G2_GC_02__r1__f1	0	0	
+com_amador__G2_GC_02__r1__f2	0	0	
+com_amador__G2_GC_02__r2__f1	0	0	
+com_amador__G2_GC_02__r2__f2	0	0	
+com_amador__G2_GC_02__r3__f1	0	0	
+com_amador__G2_GC_02__r3__f2	0	0	
+com_amador__G2_GC_02__r4__f1	0	0	
+com_amador__G2_GC_02__r4__f2	0	0	
+com_amador__G2_GC_02__r5__f1	0	0	
+com_amador__G2_GC_02__r5__f2	0	0	
+com_amador__G2_GC_03__r1__f1	0	0	
+com_amador__G2_GC_03__r1__f2	0	0	
+com_amador__G2_GC_03__r2__f1	0	0	
+com_amador__G2_GC_03__r2__f2	0	0	
+com_amador__G2_GC_03__r3__f1	0	0	
+com_amador__G2_GC_03__r3__f2	0	0	
+com_amador__G2_GC_03__r4__f1	0	0	
+com_amador__G2_GC_03__r4__f2	0	0	
+com_amador__G2_GC_03__r5__f1	1	304	error CS1056: Caractere inesperado '\'
+com_amador__G2_GC_03__r5__f2	1	88	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+com_amador__G2_GC_04__r1__f1	1	74	error CS1056: Caractere inesperado '\'
+com_amador__G2_GC_04__r1__f2	0	0	
+com_amador__G2_GC_04__r2__f1	0	0	
+com_amador__G2_GC_04__r2__f2	0	0	
+com_amador__G2_GC_04__r3__f1	1	417	error CS1056: Caractere inesperado '\'
+com_amador__G2_GC_04__r3__f2	1	417	error CS1056: Caractere inesperado '\'
+com_amador__G2_GC_04__r4__f1	0	0	
+com_amador__G2_GC_04__r4__f2	0	0	
+com_amador__G2_GC_04__r5__f1	0	0	
+com_amador__G2_GC_04__r5__f2	0	0	
+com_amador__G2_GC_05__r1__f1	1	241	error CS1056: Caractere inesperado '\'
+com_amador__G2_GC_05__r2__f1	0	0	
+com_amador__G2_GC_05__r2__f2	0	0	
+com_amador__G2_GC_05__r3__f1	0	0	
+com_amador__G2_GC_05__r3__f2	0	0	
+com_amador__G2_GC_05__r4__f1	0	0	
+com_amador__G2_GC_05__r4__f2	0	0	
+com_amador__G2_GC_05__r5__f1	0	0	
+com_amador__G2_GC_05__r5__f2	0	0	
+com_profissional__G1_CPU_01__r1__f1	0	0	
+com_profissional__G1_CPU_01__r2__f1	0	0	
+com_profissional__G1_CPU_01__r3__f1	0	0	
+com_profissional__G1_CPU_01__r4__f1	0	0	
+com_profissional__G1_CPU_01__r5__f1	0	0	
+com_profissional__G1_CPU_02__r1__f1	0	0	
+com_profissional__G1_CPU_02__r2__f1	0	0	
+com_profissional__G1_CPU_02__r3__f1	0	0	
+com_profissional__G1_CPU_02__r4__f1	0	0	
+com_profissional__G1_CPU_02__r5__f1	0	0	
+com_profissional__G1_CPU_03__r1__f1	0	0	
+com_profissional__G1_CPU_03__r2__f1	0	0	
+com_profissional__G1_CPU_03__r3__f1	0	0	
+com_profissional__G1_CPU_03__r4__f1	0	0	
+com_profissional__G1_CPU_03__r5__f1	0	0	
+com_profissional__G1_CPU_04__r1__f1	0	0	
+com_profissional__G1_CPU_04__r2__f1	0	0	
+com_profissional__G1_CPU_04__r3__f1	0	0	
+com_profissional__G1_CPU_04__r4__f1	0	0	
+com_profissional__G1_CPU_04__r5__f1	0	0	
+com_profissional__G1_CPU_05__r1__f1	0	0	
+com_profissional__G1_CPU_05__r2__f1	0	0	
+com_profissional__G1_CPU_05__r3__f1	0	0	
+com_profissional__G1_CPU_05__r4__f1	0	0	
+com_profissional__G1_CPU_05__r5__f1	0	0	
+com_profissional__G2_GC_01__r1__f1	0	0	
+com_profissional__G2_GC_01__r2__f1	1	6	error CS0103: O nome "stressCpu" n∆o existe no contexto atual
+com_profissional__G2_GC_01__r3__f1	0	0	
+com_profissional__G2_GC_01__r4__f1	0	0	
+com_profissional__G2_GC_01__r5__f1	0	0	
+com_profissional__G2_GC_02__r1__f1	0	0	
+com_profissional__G2_GC_02__r2__f1	0	0	
+com_profissional__G2_GC_02__r3__f1	0	0	
+com_profissional__G2_GC_02__r4__f1	0	0	
+com_profissional__G2_GC_02__r5__f1	0	0	
+com_profissional__G2_GC_03__r1__f1	0	0	
+com_profissional__G2_GC_03__r2__f1	0	0	
+com_profissional__G2_GC_03__r3__f1	0	0	
+com_profissional__G2_GC_03__r4__f1	0	0	
+com_profissional__G2_GC_03__r5__f1	0	0	
+com_profissional__G2_GC_04__r1__f1	0	0	
+com_profissional__G2_GC_04__r2__f1	0	0	
+com_profissional__G2_GC_04__r3__f1	0	0	
+com_profissional__G2_GC_04__r4__f1	0	0	
+com_profissional__G2_GC_04__r5__f1	0	0	
+com_profissional__G2_GC_05__r1__f1	0	0	
+com_profissional__G2_GC_05__r2__f1	0	0	
+com_profissional__G2_GC_05__r3__f1	0	0	
+com_profissional__G2_GC_05__r4__f1	0	0	
+sem_amador__G1_CPU_01__r1__f1	0	0	
+sem_amador__G1_CPU_01__r2__f1	1	1	error CS1061: 'Vector3[]' n∆o contÇm uma definiá∆o para "length" e n∆o foi poss°vel encontrar nenhum mÇtodo de extens∆o "length" que aceite um primeiro argumento do tipo 'Vector3[]' (vocà est† se esquecendo de usar uma diretiva ou uma referància de assembly?)
+sem_amador__G1_CPU_01__r3__f1	0	0	
+sem_amador__G1_CPU_01__r4__f1	0	0	
+sem_amador__G1_CPU_01__r5__f1	0	0	
+sem_amador__G1_CPU_02__r1__f1	0	0	
+sem_amador__G1_CPU_02__r2__f1	0	0	
+sem_amador__G1_CPU_02__r3__f1	0	0	
+sem_amador__G1_CPU_02__r4__f1	0	0	
+sem_amador__G1_CPU_02__r4__f2	0	0	
+sem_amador__G1_CPU_02__r5__f1	0	0	
+sem_amador__G1_CPU_03__r1__f1	0	0	
+sem_amador__G1_CPU_03__r1__f2	0	0	
+sem_amador__G1_CPU_03__r2__f1	0	0	
+sem_amador__G1_CPU_03__r3__f1	0	0	
+sem_amador__G1_CPU_03__r3__f2	0	0	
+sem_amador__G1_CPU_03__r4__f1	0	0	
+sem_amador__G1_CPU_03__r5__f1	0	0	
+sem_amador__G1_CPU_04__r1__f1	1	93	error CS1056: Caractere inesperado '\'
+sem_amador__G1_CPU_04__r2__f1	1	30	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G1_CPU_04__r3__f1	0	0	
+sem_amador__G1_CPU_04__r4__f1	0	0	
+sem_amador__G1_CPU_04__r5__f1	0	0	
+sem_amador__G1_CPU_04__r5__f2	0	0	
+sem_amador__G1_CPU_05__r1__f1	0	0	
+sem_amador__G1_CPU_05__r1__f2	0	0	
+sem_amador__G1_CPU_05__r2__f1	0	0	
+sem_amador__G1_CPU_05__r3__f1	1	77	error CS1056: Caractere inesperado '\'
+sem_amador__G1_CPU_05__r4__f1	1	76	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G1_CPU_05__r4__f2	1	147	error CS1056: Caractere inesperado '\'
+sem_amador__G1_CPU_05__r5__f1	0	0	
+sem_amador__G2_GC_01__r1__f1	1	86	error CS1056: Caractere inesperado '\'
+sem_amador__G2_GC_01__r2__f1	1	33	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_01__r3__f1	0	0	
+sem_amador__G2_GC_01__r4__f1	0	0	
+sem_amador__G2_GC_01__r5__f1	1	71	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_02__r1__f1	1	21	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_02__r2__f1	0	0	
+sem_amador__G2_GC_02__r3__f1	0	0	
+sem_amador__G2_GC_02__r4__f1	1	30	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_02__r5__f1	1	21	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_03__r1__f1	0	0	
+sem_amador__G2_GC_03__r2__f1	0	0	
+sem_amador__G2_GC_03__r3__f1	0	0	
+sem_amador__G2_GC_03__r4__f1	0	0	
+sem_amador__G2_GC_03__r5__f1	1	59	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_04__r1__f1	0	0	
+sem_amador__G2_GC_04__r2__f1	0	0	
+sem_amador__G2_GC_04__r3__f1	0	0	
+sem_amador__G2_GC_04__r4__f1	0	0	
+sem_amador__G2_GC_04__r5__f1	0	0	
+sem_amador__G2_GC_05__r1__f1	1	71	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es
+sem_amador__G2_GC_05__r2__f1	0	0	
+sem_amador__G2_GC_05__r3__f1	0	0	
+sem_amador__G2_GC_05__r4__f1	0	0	
+sem_amador__G2_GC_05__r5__f1	1	30	error CS0116: Um namespace n∆o pode conter diretamente membros, como campos, mÇtodos ou instruá‰es

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisão dos resultados</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mute:#6b6b66;--line:#e2e1dc;--ok:#1f7a4d;--okbg:#e5f4ec;--bad:#b3261e;--badbg:#fbe9e7;--na:#77736a;--nabg:#efeeea;--acc:#1b6f74;--code:#f1f0ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--panel:#1f1f1d;--ink:#ecebe6;--mute:#a3a29b;--line:#34332f;--ok:#6fd3a0;--okbg:#18332a;--bad:#ff8a80;--badbg:#3a1d1b;--na:#a7a49b;--nabg:#2a2926;--acc:#6cc9cf;--code:#262624}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header h1{font-size:16px;margin:0 8px 0 0}
+nav button{border:1px solid var(--line);background:transparent;color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer;font:inherit}
+nav button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+main{padding:16px;max-width:1700px;margin:0 auto}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+select,input[type=text],textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.col h3{margin:0 0 6px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 8px}
+.chip{font-size:12px;padding:1px 7px;border-radius:10px;border:1px solid transparent}
+.chip.ok{background:var(--okbg);color:var(--ok)} .chip.bad{background:var(--badbg);color:var(--bad)} .chip.na{background:var(--nabg);color:var(--na)}
+.finding{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+.tipo{font-weight:600;font-size:13px;color:var(--acc)}
+.lbl{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+pre{background:var(--code);border-radius:6px;padding:8px;overflow:auto;max-height:340px;font:12px/1.45 ui-monospace,Consolas,monospace;white-space:pre}
+pre.wrap{white-space:pre-wrap;word-break:break-word}
+p{margin:2px 0 6px}
+.mute{color:var(--mute);font-size:13px}
+details summary{cursor:pointer;color:var(--acc)}
+table{border-collapse:collapse;width:100%;margin:8px 0 18px;font-size:13px}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{background:var(--nabg)}
+.tbl-wrap{overflow-x:auto}
+.rub{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){.rub{grid-template-columns:1fr}}
+.crit{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.crit b{display:block}
+.anch{font-size:12px;color:var(--mute)}
+.scale{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.scale label{border:1px solid var(--line);border-radius:6px;padding:3px 10px;cursor:pointer}
+.scale input{margin-right:4px}
+.scale label.dis{opacity:.4;cursor:not-allowed}
+.btn{border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;font:inherit}
+.btn.sec{background:transparent;color:var(--acc)}
+.prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden;flex:1;min-width:120px}
+.prog i{display:block;height:100%;background:var(--acc)}
+h2{font-size:17px;margin:18px 0 6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Revisão dos resultados — prompt × código anexado</h1>
+  <nav><button data-v="comparar" class="on">Comparar</button> <button data-v="avaliar">Avaliar às cegas</button> <button data-v="tabelas">Tabelas</button> <button data-v="ajuda">Como usar</button></nav>
+</header>
+<main>
+  <section id="v-comparar"></section>
+  <section id="v-avaliar" hidden></section>
+  <section id="v-tabelas" hidden></section>
+  <section id="v-ajuda" hidden></section>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+const CELLS = [['sem_amador','Amador · sem código'],['sem_profissional','Profissional · sem código'],['com_amador','Amador · com código'],['com_profissional','Profissional · com código']];
+const FLAG_LABEL = {contagem_errada:'Contagem errada',tipo_errado:'Tipo errado',fabricacao_simbolo:'Símbolo inexistente',fabricacao_simbolo_estrita:'Símbolo fora da pilha (R4)',fabricacao_valor:'Valor/quadro fabricado',teto_ausente_violado:'Teto ausente como estourado',vazamento_escopo:'Vazamento de escopo',dicas_ausentes:'Dicas ausentes',indeterminacao_indevida:'Indeterminação indevida',falso_estouro:'Estouro sem estouro'};
+const el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (n === 'class') e.className = v; else if (n === 'text') e.textContent = v; else e.setAttribute(n, v); } for (const c of k) if (c != null) e.append(c); return e; };
+const chip = (txt, kind, title) => el('span', { class: 'chip ' + kind, text: txt, ...(title ? { title } : {}) });
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } } };
+// ---------- navegação
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => { document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b)); for (const s of document.querySelectorAll('main > section')) s.hidden = s.id !== 'v-' + b.dataset.v; store.set('rev.view', b.dataset.v); });
+// ---------- laudo de uma célula
+function codeText(c) { // o laudo exibe o texto como veio; aqui mostramos as quebras escapadas como quebras, avisando
+  const single = !c.includes('\n') && c.includes('\\n');
+  return { txt: single ? c.replace(/\\n/g, '\n').replace(/\\t/g, '\t').replace(/\\"/g, '"') : c, single };
+}
+function renderResponse(key, blind) {
+  const r = DATA.resp[key]; const box = el('div');
+  if (!r) { box.append(el('p', { class: 'mute', text: 'sem resposta' })); return box; }
+  const f = r.flags, chips = el('div', { class: 'chips' });
+  if (!blind) {
+    chips.append(f.valida_porem_errada ? chip('válida porém errada', 'bad') : chip('sem falha detectada', 'ok'));
+    for (const [k, l] of Object.entries(FLAG_LABEL)) if (f[k]) chips.append(chip(l, 'bad'));
+    if (f.grupo === 'G5_FALTANTE') chips.append(f.indeterminacao_correta ? chip('indeterminação correta', 'ok') : chip('sem indeterminação correta', 'bad'));
+    chips.append(chip(r.seg + ' s · US$ ' + (r.custo || 0).toFixed(4), 'na'));
+    box.append(chips);
+    if (f.detalhe) box.append(el('p', { class: 'mute', text: 'Validador: ' + f.detalhe }));
+  }
+  r.findings.forEach((fd, i) => {
+    const d = el('div', { class: 'finding' }, el('div', { class: 'tipo', text: `Achado ${i + 1} · ${fd.tipo}` }));
+    d.append(el('div', { class: 'lbl', text: 'Causa raiz' }), el('p', { text: fd.causa }));
+    d.append(el('div', { class: 'lbl', text: 'Código refatorado' }));
+    if (!fd.codigo.trim()) d.append(el('p', { class: 'mute', text: '(vazio)' }));
+    else {
+      const ct = codeText(fd.codigo);
+      if (fd.q && !blind) {
+        const q = fd.q, cs = el('div', { class: 'chips' });
+        cs.append(chip({ classe_original: 'reescreve a classe', metodo: 'reescreve só o método', trecho: 'trecho solto', outra_classe: 'classe nova' }[q.forma] || q.forma, 'na'));
+        cs.append(q.compila ? chip('compila', 'ok') : chip('não compila', 'bad', q.erro));
+        cs.append(q.defeito ? chip('tira o defeito do Update', 'ok') : chip('defeito ficou: ' + (q.restou || []).join('+'), 'bad'));
+        if (q.campos === true) cs.append(chip('preserva os campos', 'ok')); else if (q.campos === false) cs.append(chip('perde ' + q.perdidos.length + ' campo(s)', 'bad', q.perdidos.join(', ')));
+        d.append(cs);
+      }
+      if (ct.single) d.append(el('p', { class: 'mute', text: '⚠ O código veio numa linha só, com "\\n" literal no lugar das quebras de linha; abaixo, as quebras foram restauradas só para leitura.' }));
+      d.append(el('pre', { text: ct.txt }));
+    }
+    d.append(el('div', { class: 'lbl', text: 'Explicação didática' }), el('p', { text: fd.expl }));
+    box.append(d);
+  });
+  box.append(el('div', { class: 'lbl', text: 'Dicas de level design' }), el('p', { class: r.dicas ? '' : 'mute', text: r.dicas || 'null' }));
+  return box;
+}
+function telemetry(caso) {
+  const c = DATA.casos[caso];
+  return el('details', {}, el('summary', { text: 'Telemetria enviada (turno do usuário)' + (c.temCodigo ? ' — nas células "com código" vai também o script, sem comentários' : '') }),
+    el('pre', { class: 'wrap', text: c.telemetria }));
+}
+// ---------- Comparar
+(function () {
+  const root = document.getElementById('v-comparar');
+  const ids = Object.keys(DATA.casos).sort();
+  const sel = el('select'), rep = el('select'), only = el('select');
+  for (const id of ids) sel.append(el('option', { value: id, text: id }));
+  for (let r = 1; r <= 5; r++) rep.append(el('option', { value: r, text: 'repetição ' + r }));
+  [['all', 'todos os casos'], ['diff', 'só onde as células discordam']].forEach(([v, t]) => only.append(el('option', { value: v, text: t })));
+  const prev = el('button', { class: 'btn sec', text: '◀' }), next = el('button', { class: 'btn sec', text: '▶' });
+  const info = el('div', { class: 'panel' }), grid = el('div', { class: 'grid' });
+  root.append(el('div', { class: 'bar' }, prev, sel, next, rep), info, grid,
+    el('details', { class: 'panel' }, el('summary', { text: 'Script original StressTestScene.cs (como vai anexado, sem comentários)' }), el('pre', { text: DATA.original })));
+  const st = store.get('rev.cmp', { caso: ids[0], rep: 1 });
+  sel.value = st.caso; rep.value = st.rep;
+  function draw() {
+    store.set('rev.cmp', { caso: sel.value, rep: +rep.value });
+    const c = DATA.casos[sel.value];
+    info.replaceChildren(el('div', {}, el('b', { text: c.id + ' · ' + c.grupo }), el('span', { class: 'mute', text: ' — ' + c.parametros + (c.origem !== 'captura' ? ' (' + c.origem + ')' : '') })),
+      el('p', { class: 'mute', text: `Esperado: ${c.esperado.achados} achado(s)` + (c.esperado.indeterminacao ? '; indeterminação (Geral, código vazio)' : '') + (c.esperado.semEstouro ? '; nenhum estouro afirmado' : '') }),
+      telemetry(c.id));
+    grid.replaceChildren(...CELLS.map(([k, l]) => el('div', { class: 'col panel' }, el('h3', { text: l }), renderResponse(`${k}__${c.id}__r${rep.value}`, false))));
+  }
+  sel.onchange = rep.onchange = draw;
+  prev.onclick = () => { const i = ids.indexOf(sel.value); sel.value = ids[(i - 1 + ids.length) % ids.length]; draw(); };
+  next.onclick = () => { const i = ids.indexOf(sel.value); sel.value = ids[(i + 1) % ids.length]; draw(); };
+  draw();
+})();
+// ---------- Avaliar às cegas
+const RUBRIC = [
+  { k: 'H1', nome: 'Pertinência da correção', soCodigo: true, a1: 'corrige outra coisa, ou nada', a3: 'ataca a causa, mas incompleta ou com efeito colateral', a5: 'ataca exatamente a causa que a telemetria aponta e reduziria o custo medido' },
+  { k: 'H2', nome: 'Preservação do script', soCodigo: true, a1: 'reescreve o script e perde funções ou campos', a3: 'mantém o essencial, com mudanças não pedidas', a5: 'muda só o necessário' },
+  { k: 'H3', nome: 'Clareza didática', a1: 'jargão sem explicação, confuso ou errado', a3: 'compreensível com esforço', a5: 'um iniciante entende o porquê e o que fazer' },
+  { k: 'H4', nome: 'Utilidade para o iniciante (global)', a1: 'levaria a erro: prescrição errada ou inventada', a3: 'neutro: não ajuda nem atrapalha', a5: 'o iniciante resolveria o problema com este laudo' },
+];
+(function () {
+  const root = document.getElementById('v-avaliar');
+  // amostra fixa: G1_CPU e G2_GC, repetição 1, as quatro células = 40 laudos, ordem embaralhada com semente fixa
+  const sample = [];
+  for (const id of Object.keys(DATA.casos).sort()) if (/^G[12]_/.test(id)) for (const [k] of CELLS) sample.push({ key: `${k}__${id}__r1`, caso: id, cell: k });
+  let s = 20261022; const rnd = () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  for (let i = sample.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [sample[i], sample[j]] = [sample[j], sample[i]]; }
+  sample.forEach((x, i) => x.n = i + 1);
+  let rater = store.get('rev.rater', ''), notas = store.get('rev.notas', {}), pos = store.get('rev.pos', 0);
+  const nameIn = el('input', { type: 'text', placeholder: 'seu nome (avaliador)' }); nameIn.value = rater;
+  nameIn.oninput = () => { rater = nameIn.value.trim(); store.set('rev.rater', rater); };
+  const prog = el('div', { class: 'prog' }, el('i')), progTxt = el('span', { class: 'mute' });
+  const prev = el('button', { class: 'btn sec', text: '◀ anterior' }), next = el('button', { class: 'btn', text: 'próximo ▶' });
+  const exp = el('button', { class: 'btn sec', text: 'Exportar CSV' }), reveal = el('label', { class: 'mute' }, el('input', { type: 'checkbox' }), ' revelar a condição');
+  const body = el('div');
+  root.append(el('div', { class: 'panel' }, el('p', { text: 'São 40 laudos (G1_CPU e G2_GC, repetição 1, as quatro condições), em ordem embaralhada e sem dizer a condição. Leia a telemetria, o laudo e dê a nota de 1 a 5 em cada critério. As notas ficam salvas neste navegador; ao terminar, exporte o CSV e me envie.' }),
+    el('div', { class: 'bar' }, nameIn, prog, progTxt, exp, reveal)), el('div', { class: 'bar' }, prev, next), body);
+  const done = () => sample.filter(x => { const n = notas[x.key]; return n && RUBRIC.every(r => n[r.k] || (r.soCodigo && !hasCode(x.key))); }).length;
+  const hasCode = key => (DATA.resp[key]?.findings || []).some(f => f.codigo.trim());
+  function draw() {
+    const x = sample[pos]; store.set('rev.pos', pos);
+    const d = done(); prog.firstChild.style.width = (100 * d / sample.length) + '%'; progTxt.textContent = `${d} de ${sample.length} completos`;
+    const blind = !reveal.firstChild.checked;
+    const n = notas[x.key] = notas[x.key] || {};
+    const form = el('div');
+    for (const r of RUBRIC) {
+      const dis = r.soCodigo && !hasCode(x.key);
+      const sc = el('div', { class: 'scale' });
+      for (let v = 1; v <= 5; v++) { const inp = el('input', { type: 'radio', name: r.k, value: v }); if (n[r.k] == v) inp.checked = true; if (dis) inp.disabled = true;
+        inp.onchange = () => { n[r.k] = v; store.set('rev.notas', notas); draw(); }; sc.append(el('label', { class: dis ? 'dis' : '' }, inp, String(v))); }
+      form.append(el('div', { class: 'crit' }, el('b', { text: r.k + ' · ' + r.nome + (dis ? ' — não se aplica: o laudo não traz código' : '') }),
+        el('div', { class: 'anch', text: `1 = ${r.a1} · 3 = ${r.a3} · 5 = ${r.a5}` }), sc));
+    }
+    const com = el('textarea', { rows: 3, style: 'width:100%', placeholder: 'comentário (opcional)' }); com.value = n.obs || ''; com.oninput = () => { n.obs = com.value; store.set('rev.notas', notas); };
+    form.append(com);
+    const head = el('div', {}, el('b', { text: `Laudo ${x.n} de ${sample.length} · caso ${x.caso}` }), blind ? null : el('span', { class: 'mute', text: ' — ' + CELLS.find(c => c[0] === x.cell)[1] }));
+    body.replaceChildren(el('div', { class: 'panel' }, head, telemetry(x.caso)),
+      el('div', { class: 'rub' }, el('div', { class: 'panel' }, renderResponse(x.key, blind)), el('div', { class: 'panel' }, form)));
+  }
+  prev.onclick = () => { pos = (pos - 1 + sample.length) % sample.length; draw(); window.scrollTo(0, 0); };
+  next.onclick = () => { pos = (pos + 1) % sample.length; draw(); window.scrollTo(0, 0); };
+  reveal.firstChild.onchange = draw;
+  exp.onclick = () => {
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    let csv = 'avaliador;laudo;caso;celula;prompt;codigo_anexado;tem_codigo;H1;H2;H3;H4;comentario\n';
+    for (const x of [...sample].sort((a, b) => a.n - b.n)) { const n = notas[x.key] || {}, [cod, pr] = x.cell.split('_');
+      csv += [q(rater), x.n, x.caso, x.cell, pr, cod === 'com' ? 1 : 0, hasCode(x.key) ? 1 : 0, n.H1 || '', n.H2 || '', n.H3 || '', n.H4 || '', q(n.obs)].join(';') + '\n'; }
+    const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })), download: `rubrica_${(rater || 'avaliador').replace(/\W+/g, '_')}.csv` });
+    document.body.append(a); a.click(); a.remove();
+  };
+  draw();
+})();
+// ---------- Tabelas (markdown simples → HTML)
+(function () {
+  const root = document.getElementById('v-tabelas');
+  for (const md of DATA.tabelas) {
+    const lines = md.split(/\r?\n/); let i = 0;
+    while (i < lines.length) {
+      const l = lines[i];
+      if (/^#{1,3} /.test(l)) { const lv = l.match(/^#+/)[0].length; root.append(el(lv === 1 ? 'h2' : 'h3', { text: l.replace(/^#+ /, '') })); i++; }
+      else if (l.startsWith('|')) { const rows = []; while (i < lines.length && lines[i].startsWith('|')) { rows.push(lines[i]); i++; }
+        const cells = r => r.replace(/^\||\|$/g, '').split('|').map(s => s.trim());
+        const t = el('table'); t.append(el('tr', {}, ...cells(rows[0]).map(c => el('th', { text: c }))));
+        for (const r of rows.slice(2)) t.append(el('tr', {}, ...cells(r).map(c => el('td', { text: c }))));
+        root.append(el('div', { class: 'tbl-wrap' }, t)); }
+      else if (l.startsWith('- ')) { const ul = el('ul'); while (i < lines.length && lines[i].startsWith('- ')) { ul.append(el('li', { text: lines[i].slice(2) })); i++; } root.append(ul); }
+      else { if (l.trim()) root.append(el('p', { text: l })); i++; }
+    }
+  }
+})();
+// ---------- Ajuda
+document.getElementById('v-ajuda').append(el('div', { class: 'panel' },
+  el('h2', { text: 'Comparar' }), el('p', { text: 'Escolha o caso e a repetição: as quatro condições aparecem lado a lado, com o que o validador automático encontrou (vermelho = falha) e, nos casos G1_CPU e G2_GC, os critérios objetivos do código: se compila aplicado ao projeto, se tira o defeito plantado do Update e se preserva os campos públicos do script.' }),
+  el('h2', { text: 'Avaliar às cegas' }), el('p', { text: 'A rubrica (H1 a H4) cobre o que o código não consegue julgar. A condição fica escondida para a nota não ser influenciada; H1 e H2 só valem quando o laudo traz código. Dois avaliadores avaliam os mesmos 40 laudos de forma independente; a concordância entre eles entra no artigo.' }),
+  el('h2', { text: 'Tabelas' }), el('p', { text: 'As tabelas da análise 2×2 (validador) e dos critérios objetivos do código, como vão para o artigo.' })));
+const v = store.get('rev.view', 'comparar'); document.querySelector(`nav button[data-v="${v}"]`)?.click();
+</script>
+</body>
+</html>

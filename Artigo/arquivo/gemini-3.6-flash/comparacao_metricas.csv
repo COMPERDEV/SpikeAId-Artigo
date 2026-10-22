@@ -1,0 +1,14 @@
+metrica;descricao;casos_pareados;media_amador;media_profissional;W_mais;W_menos;p_exato;r_bisserial;significativo_5pct;melhor_e_maior
+formato_invalido;Violação de formato;0;0.000;;;;—;—;;nao
+contagem_errada;Quantidade de achados errada;0;0.333;;;;—;—;;nao
+tipo_errado;Atribuição de tipo errada;0;0.667;;;;—;—;;nao
+fabricacao_simbolo;Fabricação de símbolo (inexistente);0;0.111;;;;—;—;;nao
+fabricacao_simbolo_estrita;Símbolo fora da pilha (R4 estrita);0;1.000;;;;—;—;;nao
+fabricacao_valor;Fabricação de valor ou quadro;0;0.000;;;;—;—;;nao
+teto_ausente_violado;Teto ausente tratado como estourado;0;0.333;;;;—;—;;nao
+vazamento_escopo;Vazamento de escopo;0;0.111;;;;—;—;;nao
+dicas_ausentes;Dicas de level design ausentes com achado DrawCalls;0;0.000;;;;—;—;;nao
+indeterminacao_correta;Indeterminação correta (G5);0;;;;;—;—;;sim
+indeterminacao_indevida;Indeterminação indevida (G1–G4);0;0.000;;;;—;—;;nao
+falso_estouro;Estouro afirmado sem estouro (G5–G6);0;;;;;—;—;;nao
+valida_porem_errada;Válida porém errada;0;0.778;;;;—;—;;nao

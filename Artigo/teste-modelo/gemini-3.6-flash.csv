@@ -1,0 +1,7 @@
+modelo;caso;condicao;http;versao;fim;tokens_entrada;tokens_saida;tokens_raciocinio;custo_usd;segundos;formato_valido;valida_porem_errada;detalhe
+gemini-3.6-flash;G1_CPU_01;amador;200;gemini-3.6-flash;STOP;667;450;986;0.005885;8.806501;1;1;"símbolo inventado: PerformanceAdvisor; "
+gemini-3.6-flash;G1_CPU_01;profissional;200;gemini-3.6-flash;STOP;2030;338;1926;0.010013;11.463503;1;0;""
+gemini-3.6-flash;G3_DRAWCALLS_01;amador;200;gemini-3.6-flash;STOP;607;818;2095;0.011379;15.461958;1;1;"símbolo inventado: UnityEngine; "
+gemini-3.6-flash;G3_DRAWCALLS_01;profissional;200;gemini-3.6-flash;STOP;1970;220;1436;0.007688;9.214398;1;0;""
+gemini-3.6-flash;G5_FALTANTE_01;amador;200;gemini-3.6-flash;STOP;595;498;1871;0.00933;12.800244;1;1;""
+gemini-3.6-flash;G5_FALTANTE_01;profissional;200;gemini-3.6-flash;STOP;1958;308;2035;0.010255;12.075191;1;0;""

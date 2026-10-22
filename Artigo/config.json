@@ -1,0 +1,10 @@
+{
+  "modelo": "gemini-3.8-flash",
+  "repeticoes": 5,
+  "intervaloSegundos": 4,
+  "esperaApos429Segundos": 65,
+  "maxTentativasPor429": 6,
+  "precoEntradaUsdMilhao": 0.75,
+  "precoSaidaUsdMilhao": 3.75,
+  "limiteGastoUsd": 3.3
+}

@@ -1,0 +1,7 @@
+modelo;caso;condicao;http;versao;fim;tokens_entrada;tokens_saida;tokens_raciocinio;custo_usd;segundos;formato_valido;valida_porem_errada;detalhe
+gemini-3.8-flash;G1_CPU_01;amador;200;gemini-3.8-flash;STOP;667;602;508;0.004663;8.926942;1;1;"símbolo inventado: PerformanceAdvisor; "
+gemini-3.8-flash;G1_CPU_01;profissional;200;gemini-3.8-flash;STOP;2030;400;1364;0.008138;12.590844;1;0;""
+gemini-3.8-flash;G3_DRAWCALLS_01;amador;200;gemini-3.8-flash;STOP;607;874;646;0.006155;14.622567;1;0;""
+gemini-3.8-flash;G3_DRAWCALLS_01;profissional;200;gemini-3.8-flash;STOP;1970;361;1310;0.007744;13.421952;1;0;""
+gemini-3.8-flash;G5_FALTANTE_01;amador;200;gemini-3.8-flash;STOP;595;655;595;0.005134;11.538048;1;1;""
+gemini-3.8-flash;G5_FALTANTE_01;profissional;200;gemini-3.8-flash;STOP;1958;303;663;0.005091;8.488002;1;0;""

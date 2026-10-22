@@ -1,0 +1,54 @@
+{
+    "id": "G1_CPU_03",
+    "grupo": "G1_CPU",
+    "origem": "captura",
+    "cena": "Assets/PerformanceAdvisor/StressScenes/Artigo/G1_CPU_03.unity",
+    "parametros": "cena cpu: stressCpu, cpuScansPerFrame=32, emptyObjects=10000",
+    "criadoEm": "2026-10-10 01:37:49",
+    "descricao": "Intel Core i7-6700 (2015), DDR4 2133MHz 8GB, NVIDIA GeForce GTX 1650, alvo 60 FPS",
+    "orcamentoMs": 16.66666603088379,
+    "tetoDrawCalls": 2579,
+    "tetoMemoriaBytes": 0,
+    "fatorCpu": 1.8592169284820557,
+    "fatorGpu": 8.050934791564942,
+    "medidoEm": "",
+    "contadorDraw": "soma de 11 contadores de draw call",
+    "contadorMemoria": "System Used Memory",
+    "memResolvido": true,
+    "gpuResolvido": true,
+    "vCpu": 256,
+    "vGc": 256,
+    "vDraw": 0,
+    "vGpu": 19,
+    "vMem": 0,
+    "vCpuMaxMs": 132.35617065429688,
+    "vGpuMaxMs": 28.65669059753418,
+    "vGcMaxBytes": 5208199,
+    "vMemMaxBytes": 0,
+    "vDrawMax": 0,
+    "amostras": [
+        {
+            "array": "cpu_samples",
+            "frame": 298,
+            "cpuRawMs": 71.18920135498047,
+            "gcBytes": 5150792,
+            "gcCollectMs": 8.584600448608399,
+            "drawCalls": 7,
+            "memBytes": 4114239488,
+            "gpuRawMs": 1.6993279457092286,
+            "tMs": 12178,
+            "culpritStack": "Update.ScriptRunBehaviourUpdate (62.38ms)\nStressTest.dll!PerformanceAdvisor.StressTest::StressTestScene.Update() [Invoke] (62.36ms)\nGC.Collect (3.07ms)",
+            "occurrences": 256
+        }
+    ],
+    "fontes": [
+        {
+            "file": "Assets/PerformanceAdvisor/Runtime/StressTestScene.cs",
+            "code": "using System;\nusing UnityEngine;\n\nnamespace PerformanceAdvisor.StressTest\n{\n\n    public class StressTestScene : MonoBehaviour\n    {\n\n        public bool stressGc = true;\n\n        public bool stressCpu = true;\n\n        public bool stressDraw = false;\n\n        public GameObject testPrefab;\n\n        [Range(1, 20)]\n        public float spawnRadius = 10f;\n\n        [Range(1, 50)]\n        public int cubesPerFrame = 1;\n\n        public bool useUniqueMaterials = false;\n\n        [Range(1, 512)]\n        public int cpuScansPerFrame = 1;\n\n        public int emptyObjects = 0;\n\n        public int gcConcatIterations = 1000;\n\n        public int gcArrayAllocs = 0;\n\n        public int overdrawLayers = 0;\n\n        public Material overdrawMaterial;\n\n        [Range(0, 2000)]\n        public int prepopulateCount = 0;\n\n        private void Start()\n        {\n\n            if (prepopulateCount > 0 && testPrefab != null)\n            {\n                for (int i = 0; i < prepopulateCount; i++)\n                {\n                    SpawnOne();\n                }\n            }\n\n            for (int i = 0; i < emptyObjects; i++) new GameObject(\"Empty_\" + i);\n\n            if (overdrawLayers > 0 && overdrawMaterial != null) BuildOverdrawLayers();\n        }\n\n        private void BuildOverdrawLayers()\n        {\n            Camera cam = Camera.main;\n            if (cam == null) return;\n            float halfFov = cam.fieldOfView * 0.5f * Mathf.Deg2Rad;\n            for (int i = 0; i < overdrawLayers; i++)\n            {\n                float d = cam.nearClipPlane + 0.05f + i * 0.001f;\n                float h = 2f * d * Mathf.Tan(halfFov) * 1.1f;\n                var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);\n                Destroy(quad.GetComponent<Collider>());\n                quad.name = \"Overdraw_\" + i;\n                quad.transform.SetParent(cam.transform, false);\n                quad.transform.localPosition = new Vector3(0f, 0f, d);\n                quad.transform.localScale = new Vector3(h * cam.aspect, h, 1f);\n                quad.GetComponent<Renderer>().sharedMaterial = overdrawMaterial;\n            }\n        }\n\n        private void Update()\n        {\n            if (stressGc)\n            {\n\n                string s = \"\";\n                for (int i = 0; i < gcConcatIterations; i++) s += i.ToString();\n                GC.KeepAlive(s);\n\n                for (int i = 0; i < gcArrayAllocs; i++)\n                {\n                    var block = new object[10000];\n                    GC.KeepAlive(block);\n                }\n            }\n\n            if (stressCpu)\n            {\n\n                for (int k = 0; k < cpuScansPerFrame; k++)\n                {\n                    var allObjects = GameObject.FindObjectsOfType<GameObject>();\n                    GC.KeepAlive(allObjects);\n                }\n            }\n\n            if (stressDraw && testPrefab != null)\n            {\n                int n = Mathf.Max(1, cubesPerFrame);\n                for (int i = 0; i < n; i++) SpawnOne();\n            }\n        }\n\n        private void SpawnOne()\n        {\n            var clone = Instantiate(\n                testPrefab,\n                UnityEngine.Random.insideUnitSphere * spawnRadius,\n                Quaternion.identity);\n\n            if (useUniqueMaterials)\n            {\n                var renderer = clone.GetComponent<Renderer>();\n                if (renderer != null)\n                {\n\n                    renderer.material.color = new Color(\n                        UnityEngine.Random.value,\n                        UnityEngine.Random.value,\n                        UnityEngine.Random.value);\n                }\n            }\n        }\n    }\n}\n"
+        }
+    ],
+    "userText": "hardware_budget: Intel Core i7-6700 (2015), DDR4 2133MHz 8GB, NVIDIA GeForce GTX 1650, alvo 60 FPS — budgets: 16.7ms/frame, 2579 draw calls, memoria sem teto (nao julgar). projecao: cpu_ms, gc_collect_ms e gpu_ms ja projetados para o alvo (fator cpu 1.86, fator gpu 8.05). counters: {draw_calls_from:\"soma de 11 contadores de draw call\", memory_from:\"System Used Memory\"}. violations_summary: {cpu_violations:256, cpu_max_ms:132.36, gc_violations:256, gc_max_bytes:5208199, drawcalls_violations:0, drawcalls_max:0, gpu_violations:19, gpu_max_ms:28.66, memory_violations:0, memory_max_bytes:0}.  cpu_samples: [{frame:298, cpu_ms:132.36, gc_bytes:5150792, gc_collect_ms:15.96, draw_calls:7, mem_bytes:4114239488, gpu_ms:13.68, t_ms:12178, culprit_stack:\"Update.ScriptRunBehaviourUpdate (62.38ms) | StressTest.dll!PerformanceAdvisor.StressTest::StressTestScene.Update() [Invoke] (62.36ms) | GC.Collect (3.07ms)\"}] gc_samples: [] drawcalls_samples: [] memory_samples: [] gpu_samples: [] script_sources: [{file:\"Assets/PerformanceAdvisor/Runtime/StressTestScene.cs\", code:\"using System;\\nusing UnityEngine;\\n\\nnamespace PerformanceAdvisor.StressTest\\n{\\n\\n    public class StressTestScene : MonoBehaviour\\n    {\\n\\n        public bool stressGc = true;\\n\\n        public bool stressCpu = true;\\n\\n        public bool stressDraw = false;\\n\\n        public GameObject testPrefab;\\n\\n        [Range(1, 20)]\\n        public float spawnRadius = 10f;\\n\\n        [Range(1, 50)]\\n        public int cubesPerFrame = 1;\\n\\n        public bool useUniqueMaterials = false;\\n\\n        [Range(1, 512)]\\n        public int cpuScansPerFrame = 1;\\n\\n        public int emptyObjects = 0;\\n\\n        public int gcConcatIterations = 1000;\\n\\n        public int gcArrayAllocs = 0;\\n\\n        public int overdrawLayers = 0;\\n\\n        public Material overdrawMaterial;\\n\\n        [Range(0, 2000)]\\n        public int prepopulateCount = 0;\\n\\n        private void Start()\\n        {\\n\\n            if (prepopulateCount > 0 && testPrefab != null)\\n            {\\n                for (int i = 0; i < prepopulateCount; i++)\\n                {\\n                    SpawnOne();\\n                }\\n            }\\n\\n            for (int i = 0; i < emptyObjects; i++) new GameObject(\\\"Empty_\\\" + i);\\n\\n            if (overdrawLayers > 0 && overdrawMaterial != null) BuildOverdrawLayers();\\n        }\\n\\n        private void BuildOverdrawLayers()\\n        {\\n            Camera cam = Camera.main;\\n            if (cam == null) return;\\n            float halfFov = cam.fieldOfView * 0.5f * Mathf.Deg2Rad;\\n            for (int i = 0; i < overdrawLayers; i++)\\n            {\\n                float d = cam.nearClipPlane + 0.05f + i * 0.001f;\\n                float h = 2f * d * Mathf.Tan(halfFov) * 1.1f;\\n                var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);\\n                Destroy(quad.GetComponent<Collider>());\\n                quad.name = \\\"Overdraw_\\\" + i;\\n                quad.transform.SetParent(cam.transform, false);\\n                quad.transform.localPosition = new Vector3(0f, 0f, d);\\n                quad.transform.localScale = new Vector3(h * cam.aspect, h, 1f);\\n                quad.GetComponent<Renderer>().sharedMaterial = overdrawMaterial;\\n            }\\n        }\\n\\n        private void Update()\\n        {\\n            if (stressGc)\\n            {\\n\\n                string s = \\\"\\\";\\n                for (int i = 0; i < gcConcatIterations; i++) s += i.ToString();\\n                GC.KeepAlive(s);\\n\\n                for (int i = 0; i < gcArrayAllocs; i++)\\n                {\\n                    var block = new object[10000];\\n                    GC.KeepAlive(block);\\n                }\\n            }\\n\\n            if (stressCpu)\\n            {\\n\\n                for (int k = 0; k < cpuScansPerFrame; k++)\\n                {\\n                    var allObjects = GameObject.FindObjectsOfType<GameObject>();\\n                    GC.KeepAlive(allObjects);\\n                }\\n            }\\n\\n            if (stressDraw && testPrefab != null)\\n            {\\n                int n = Mathf.Max(1, cubesPerFrame);\\n                for (int i = 0; i < n; i++) SpawnOne();\\n            }\\n        }\\n\\n        private void SpawnOne()\\n        {\\n            var clone = Instantiate(\\n                testPrefab,\\n                UnityEngine.Random.insideUnitSphere * spawnRadius,\\n                Quaternion.identity);\\n\\n            if (useUniqueMaterials)\\n            {\\n                var renderer = clone.GetComponent<Renderer>();\\n                if (renderer != null)\\n                {\\n\\n                    renderer.material.color = new Color(\\n                        UnityEngine.Random.value,\\n                        UnityEngine.Random.value,\\n                        UnityEngine.Random.value);\\n                }\\n            }\\n        }\\n    }\\n}\\n\"}]",
+    "esperadoAchados": 1,
+    "esperadoIndeterminacao": false,
+    "esperadoSemEstouro": false
+}

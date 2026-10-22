@@ -1,0 +1,15 @@
+metrica;descricao;casos_pareados;media_amador;media_profissional;W_mais;W_menos;p_exato;p_holm;r_bisserial;significativo_holm_5pct;melhor_e_maior
+formato_invalido;Violação de formato;30;0.000;0.000;0;0;1.0000;1.0000;0.00;nao;nao
+contagem_errada;Quantidade de achados errada;30;0.400;0.000;120;0;0.0001;0.0006;1.00;sim;nao
+tipo_errado;Atribuição de tipo errada;30;0.480;0.000;153;0;0.0000;0.0002;1.00;sim;nao
+fabricacao_simbolo;Fabricação de símbolo (inexistente);30;0.007;0.000;1;0;1.0000;1.0000;1.00;nao;nao
+fabricacao_simbolo_estrita;Símbolo fora da pilha (R4 estrita);30;1.000;0.033;465;0;0.0000;0.0000;1.00;sim;nao
+fabricacao_valor;Fabricação de valor ou quadro;30;0.140;0.000;66;0;0.0010;0.0088;1.00;sim;nao
+teto_ausente_violado;Teto ausente tratado como estourado;30;0.007;0.000;1;0;1.0000;1.0000;1.00;nao;nao
+vazamento_escopo;Vazamento de escopo;30;0.047;0.000;6;0;0.2500;1.0000;1.00;nao;nao
+dicas_ausentes;Dicas de level design ausentes com achado DrawCalls;30;0.000;0.000;0;0;1.0000;1.0000;0.00;nao;nao
+indeterminacao_correta;Indeterminação correta (G5);5;0.000;0.200;0;1;1.0000;1.0000;-1.00;nao;sim
+indeterminacao_indevida;Indeterminação indevida (G1–G4);20;0.000;0.000;0;0;1.0000;1.0000;0.00;nao;nao
+falso_estouro;Estouro afirmado sem estouro (G5–G6);10;0.220;0.060;19;2;0.1250;1.0000;0.81;nao;nao
+valida_porem_errada;Válida porém errada;30;0.693;0.153;253;0;0.0000;0.0000;1.00;sim;nao
+sem_codigo;Abstenção de código (G1–G2, pós-hoc);10;0.000;0.020;0;1;1.0000;—;-1.00;;nao

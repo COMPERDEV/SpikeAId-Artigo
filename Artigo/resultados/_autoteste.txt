@@ -1,0 +1,61 @@
+Autoteste dos instrumentos do artigo — 2026-10-15 22:23:56
+
+== Wilcoxon (p exato conhecido)
+  OK    5 diferenças positivas distintas → p = 2/32 (obtido 0,0625)
+  OK    6 diferenças positivas empatadas → p = 2/64 (obtido 0,03125)
+  OK    zeros são descartados (obtido 0,0625)
+  OK    simétrico → p = 1 (obtido 1)
+  OK    r bisserial de tudo positivo = 1 (obtido 1)
+  OK    Holm: menor p × 3 testes (obtido 0,03)
+  OK    Holm: segundo menor × 2 (obtido 0,06)
+  OK    Holm: maior × 1, mas nunca abaixo do anterior (obtido 0,06)
+  OK    Holm: métrica sem teste continua sem p
+
+== Payload do caso
+  OK    cpu_ms vai projetado (10 × 1,86 = 18,60)
+  OK    linha de projeção presente
+  OK    memória vai como sem teto
+  OK    gabarito: 1 achado, com estouro
+
+== Validador — resposta correta
+  OK    formato válido
+  OK    nenhuma falha marcada
+  OK    símbolo da pilha não conta como fora dela
+
+== Validador — cada classe plantada
+  OK    cerca de markdown → formato inválido
+  OK    campo obrigatório ausente → formato inválido
+  OK    tipo diferente do array → tipo errado
+  OK    dois achados para uma amostra → contagem errada
+  OK    quadro inexistente → fabricação de valor
+  OK    valor inexistente → fabricação de valor
+  OK    valores do payload com outra casa decimal não são fabricação
+  OK    método que não existe em lugar nenhum → inventado
+  OK    API da Unity conta fora da pilha mas não como inventada
+
+== Código anexado (script_sources)
+  OK    payload leva script_sources com o arquivo
+  OK    quebra de linha do código vai escapada (o payload continua em uma linha)
+  OK    símbolo do script anexado não conta como fora da pilha
+  OK    sem script anexado, o mesmo símbolo continua fora da pilha e inventado
+
+== Validador — casos vistos nas respostas reais
+  OK    namespace (using, namespace, UnityEngine.X) não é símbolo inventado
+  OK    16,67 ms contra 16.7 enviado não é fabricação
+  OK    aproximação declarada (mais de, cerca de) dentro de 10% não é fabricação
+  OK    valor derivado sem marcador (soma) continua contando como fabricação
+  OK    estouro da CPU numa frase que cita memória não é teto de memória violado
+  OK    memória como sujeito do estouro conta
+  OK    teto ausente tratado como estourado
+  OK    negação não conta como estouro
+  OK    dicas sem achado DrawCalls → vazamento de escopo
+  OK    batching num achado de GPU → vazamento de escopo
+  OK    batching negado não conta
+
+== Validador — grupos G5 e G6
+  OK    derivado G5 fica sem estouro e sem pilha
+  OK    Geral sem código no G5 → indeterminação correta
+  OK    afirmar estouro no G5 → falso estouro e válida porém errada
+  OK    indeterminação com dados suficientes → indevida
+
+Resultado: 44 ok, 0 falha(s).

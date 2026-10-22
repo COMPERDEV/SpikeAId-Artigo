@@ -1,0 +1,20 @@
+caso;condicao;repeticao;tipo;causa_raiz;codigo_refatorado;explicacao_didatica;nota_didatica_1a5;nota_pertinencia_codigo_1a5;avaliador
+"G1_CPU_02";"amador";"1";"GC";"Alocações excessivas de memória temporária dentro do método Update() no script StressTestScene (gerando ~3.8 MB por frame), provocando frequentes picos de Garbage Collector (16.69ms de GC pause) e travamentos severos de CPU (402.50ms).";"using UnityEngine;
+namespace PerformanceAdvisor.StressTest
+{
+    public class StressTestScene : MonoBehaviour
+    {
+        private System.Text.StringBuilder _stringBuffer;
+
+        private void Awake()
+        {
+            _stringBuffer = new System.Text.StringBuilder(256);
+        }
+
+        private void Update()
+        {
+            _stringBuffer.Clear();
+            _stringBuffer.Append(""Status do Sistema: Otimizado sem alocação de GC"");
+        }
+    }
+}";"O método Update roda a cada quadro do jogo (60 vezes por segundo). Quando instanciamos objetos, criamos novas listas ou fazemos concatenação de strings dentro do Update, o Unity aloca memória no Heap temporário. Quando essa memória enche, o C# ativa o Garbage Collector (GC) para limpar os resíduos, o que congela a execução do jogo (stuttering). Para corrigir, movemos todas as alocações para o Awake/Start e reutilizamos a memória pré-alocada.";"";"";""

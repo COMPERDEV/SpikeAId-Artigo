@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;4;3;abstém-se com motivo correto, orienta só a investigar o Update
+2;4;3;4;4;remove a varredura (a causa) e a concatenação, esvazia os ramos stressCpu/stressGc
+3;;;4;3;diagnóstico de GC correto e ancorado, abstenção justificada
+4;4;3;3;3;StringBuilder e fim dos blocos resolvem o GC, muda defaults, achado extra com classe nova inútil
+5;1;1;3;1;tipo errado (pico de CPU lido como GC), classe inventada sem relação com o script
+6;1;1;3;2;classe inventada em uma linha com \n literal, diagnóstico genérico de alocação
+7;3;3;3;2;tira a varredura mas vem em uma linha só (não compila colado), achado de GC só com comentário
+8;2;4;4;2;remove alocações desligadas nesta cena e mantém a varredura que aloca, diagnóstico atribui a strings/arrays
+9;5;4;4;4;remove exatamente as alocações da cena de GC e preserva o resto
+10;;;4;3;diagnóstico correto (31% do pico), abstenção justificada
+11;;;4;3;diagnóstico de GC correto, abstenção justificada
+12;4;3;4;4;remove a varredura e a concatenação, Update fica só com o spawn
+13;1;1;3;1;classe inventada com o nome certo, não toca no código real
+14;;;4;3;abstenção justificada, sugere abrir o script e procurar laços
+15;4;2;3;3;corrige o GC mas apaga BuildOverdrawLayers, achado extra com registro inventado
+16;1;1;3;1;classe inventada em uma linha, não corrige o script real
+17;1;1;3;1;causa errada (alocação em vez da varredura), classe inventada em uma linha com \n literal
+18;;;4;4;mostra que a coleta explica só 18% do pico e evita a correção errada
+19;5;4;4;4;remove as alocações de GC, método numa linha só mas compila
+20;4;3;4;4;remove a varredura, Update fica só com o spawn
+21;4;3;4;4;remove varredura e alocações, ramos vazios mantidos
+22;;;3;3;abstenção justificada, pouca orientação sobre o próximo passo
+23;;;4;3;abstenção justificada, manda abrir o script e verificar o Update
+24;4;3;3;3;tira a varredura mas acrescenta lista que cresce, dois achados repetem a classe inteira
+25;2;3;1;1;código em uma linha com o resto do JSON dentro do campo e explicação "..."
+26;4;3;3;3;corrige varredura e GC, mesma classe repetida nos dois achados, muda defaults
+27;4;3;3;3;troca a varredura por lista própria, acrescenta rastreamento, achado de GC repete a classe e cita material sem dado
+28;1;1;3;1;tipo errado e duas classes inventadas, throttling sem conteúdo
+29;3;3;3;2;remove varredura e alocações mas em uma linha só (não compila colado), segundo achado só comentário
+30;2;4;4;3;diagnóstico certo (coleta explica 18%) mas o código remove alocações desligadas e mantém a varredura
+31;5;4;4;4;remove exatamente as alocações da cena de GC
+32;4;3;4;4;remove varredura e concatenação, Update fica só com o spawn
+33;1;1;4;1;explicação clara mas classe inventada em uma linha com \n literal
+34;2;2;1;1;campo de código traz JSON aninhado com outro achado, explicação vazia de conteúdo
+35;1;1;3;1;diagnóstico errado (GC como causa principal) e classe inventada
+36;1;1;3;1;causa errada e classe inventada sem namespace
+37;;;4;3;abstenção justificada, sugestões genéricas (corrotinas e threads)
+38;;;4;3;diagnóstico de GC correto, abstenção justificada
+39;1;1;2;1;causa errada, duas classes inventadas sem relação com o script
+40;4;3;3;3;StringBuilder e fim dos blocos e da varredura, troca _Color por _BaseColor, achado extra só comentário
