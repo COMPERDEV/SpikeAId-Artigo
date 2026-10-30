@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;4;3;Abstenção justificada e localização útil sem causa interna demonstrada
+2;4;3;4;3;Remove a busca onerosa mas também elimina o modo GC sem necessidade
+3;;;3;3;Abstenção correta mas GC maior que CPU não prova causalidade integral
+4;4;2;4;3;Reduz GC com mudanças amplas e atribui pico CPU ao ramo não ativo
+5;1;1;4;1;Substitui o script por processamento inventado e perde sua interface
+6;1;1;4;1;Buffers inventados substituem funções e escapes literais impedem compilação
+7;1;2;3;1;Código não compilável e remove modos CPU e GC além de alterar materiais
+8;1;3;3;1;Remove ramo GC inativo e mantém a busca que aloca na cena CPU
+9;4;3;3;3;Elimina alocações efetivas mas desativa a função dos controles GC
+10;;;4;3;Abstenção prudente e diagnóstico amplo sem próximo passo específico
+11;;;3;3;Orienta reutilização mas trata tempos incompatíveis como prova integral
+12;4;3;4;3;Remove busca efetiva com remoção adicional do ramo GC
+13;1;1;4;1;Rotina senoidal inventada apaga campos e comportamento original
+14;;;4;3;Localiza Update e recomenda investigação sem inventar implementação
+15;4;2;4;2;Reduz GC mas perde overdraw e remove CPU com registro não integrado
+16;1;1;4;1;Uma linha válida porém troca o script por rotina arbitrária de bytes
+17;1;1;3;1;Código com escapes e processamento inventado não refatora a busca
+18;;;4;3;Separa parcialmente o GC do custo total mas causalidade permanece incerta
+19;4;3;3;3;Remove alocações efetivas mas controles GC ficam sem função
+20;4;3;4;3;Elimina a busca efetiva mas também remove GC sem justificativa
+21;4;3;4;3;Remove busca cara e GC junto sem preservar seus controles funcionais
+22;;;4;3;Abstenção bem fundamentada mas não explica o restante do pico
+23;;;4;3;Localiza o método e dá próximo passo seguro para investigação
+24;4;2;3;2;Remove busca mas registro fica sem uso e explicação erra mutabilidade de arrays
+25;1;2;2;1;Escapes e fragmentos JSON corrompem código e material didático
+26;4;2;4;3;Reduz busca efetiva mas altera GC e materiais fora do escopo
+27;4;3;4;3;Cache reduz busca mas cobre só criações locais e altera modos e materiais
+28;1;1;3;1;Dois scripts substitutos inventados sem implementação da lógica real
+29;1;2;4;1;Código escapado e cores alteradas com diagnóstico GC errado para a cena
+30;1;3;3;1;Remove ramo GC inativo mantendo as alocações da busca CPU
+31;4;3;3;3;Remove alocações efetivas mas não preserva a operação dos campos GC
+32;4;3;4;3;Ataca a busca real mas elimina GC adicionalmente
+33;1;1;3;1;Código escapado inventa outro processamento e perde toda a interface
+34;1;2;2;1;Código corrompido e registro parcial com atribuição GC indevida
+35;1;1;3;1;Código escapado e rotina inventada sem preservar o script
+36;1;1;3;1;Reescrita com buffers inventados perde namespace campos e comportamento
+37;;;3;2;Abstenção útil mas sugere corrotinas ou threads sem limites da Unity
+38;;;3;3;Abstenção e próximo passo úteis apesar de causalidade integral indevida
+39;1;1;3;1;Classes inventadas substituem script e não implementam sua lógica
+40;4;2;3;2;Reduz GC efetivo mas altera cor shader e remove modo CPU fora do escopo

@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;4;3;abstenção justificada e sugere investigar o Update
+2;4;3;4;4;remove a varredura que causa o custo mas apaga também o bloco de GC
+3;;;3;3;abstenção correta mas não diz o que fazer
+4;4;2;4;3;StringBuilder e remoção dos arrays corrigem o GC mas há mudanças não pedidas e um exemplo de classe à parte
+5;1;1;3;1;script inventado que perde todos os campos e funções
+6;1;1;3;1;script inventado e entregue numa linha com \n literal
+7;3;2;3;2;remove a varredura mas o script vem numa linha que não compila e muda defaults
+8;1;3;4;2;remove strings e arrays que não rodam nesta cena e mantém a varredura que gera o lixo
+9;5;4;4;4;remove só o bloco de alocações que causa o GC
+10;;;3;3;abstenção correta mas pouco acionável
+11;;;4;3;abstenção correta e orienta reutilizar estruturas
+12;4;3;4;4;remove a varredura e o bloco de GC junto
+13;1;1;3;1;script inventado sem relação com o código real
+14;;;4;3;abstenção correta e manda abrir o script para investigar
+15;4;1;4;2;corrige o GC mas o script perde BuildOverdrawLayers e o registro de objetos fica solto
+16;1;1;3;1;script inventado que descarta o comportamento original
+17;1;1;3;1;script inventado e numa linha com \n literal
+18;;;4;3;abstenção correta e mostra que o GC explica só parte do pico
+19;5;4;4;4;remove só o bloco de alocações e o código compila mesmo numa linha
+20;4;3;4;4;remove a varredura e o bloco de GC junto
+21;4;3;4;4;remove a varredura e o bloco de GC junto
+22;;;3;3;abstenção correta mas não diz o que fazer
+23;;;4;3;abstenção correta e manda verificar o Update
+24;4;2;3;3;remove a varredura mas reescreve o script com lista sem uso e defaults alterados
+25;2;2;1;2;código numa linha com \n e lixo de JSON e a explicação vem vazia
+26;4;2;4;3;remove a varredura mas faz mudanças não pedidas e repete o script nos dois achados
+27;4;3;4;4;troca a varredura por uma lista em cache e mantém a função mas muda defaults
+28;1;1;3;1;scripts inventados com throttling genérico
+29;3;2;3;2;remove a varredura mas a linha com \n não compila e o GC é atribuído às strings
+30;1;3;4;2;remove o bloco de strings que não roda nesta cena e mantém a varredura
+31;5;4;4;4;remove só o bloco de alocações que causa o GC
+32;4;3;5;4;remove a varredura e sugere cache explicando bem mas apaga o bloco de GC junto
+33;1;1;3;1;script inventado e numa linha com \n literal
+34;2;2;2;1;código numa linha com \n e JSON colado que não compila e a explicação é vazia
+35;1;1;3;1;script inventado e numa linha com \n literal
+36;1;1;3;1;script inventado e sem o namespace original
+37;;;4;3;abstenção correta com sugestões gerais
+38;;;4;3;abstenção correta e orienta reutilizar instâncias
+39;1;1;3;1;classes inventadas sem relação com o script
+40;4;2;4;3;StringBuilder e remoção dos arrays corrigem o GC mas troca _Color por _BaseColor e muda defaults

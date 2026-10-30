@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;4;3;Abstenção adequada localiza Update mas falta roteiro de investigação
+2;3;2;4;2;Elimina buscas e também lógica GC sem preservar controles
+3;;;3;3;Abstenção correta mas GC maior que CPU não prova causalidade total
+4;3;2;3;2;Reduz GC porém remove funções e inventa causa CPU não ativa
+5;1;1;3;1;Substitui o script por buffers e cálculos inventados
+6;1;1;3;1;Código com escapes literais e lógica inteiramente inventada
+7;1;2;3;1;Escapes impedem uso e remoções excedem gargalo CPU
+8;1;3;3;1;Remove GC inativo e mantém as buscas que realmente alocam
+9;3;3;3;2;Reduz alocações removendo comportamento e superestima causalidade GC
+10;;;3;3;Abstenção adequada mas proporção temporal assume métricas comparáveis
+11;;;3;3;Orienta reutilização mas trata GC maior que CPU como explicação total
+12;3;2;4;2;Remove CPU e GC e atribui lixo a ramo não ativo
+13;1;1;3;1;Buffers inventados substituem funcionalidades reais
+14;;;4;3;Localiza método e orienta inspeção sem inventar código
+15;3;1;3;2;Remove overdraw e CPU além de alterar materiais e padrões
+16;1;1;3;1;Uma linha válida mas substitui script por processamento fictício
+17;1;1;3;1;Escapes literais e buffers fictícios não corrigem script real
+18;;;3;3;Distingue GC de outros custos mas subtrai tempos sem semântica validada
+19;3;3;3;2;Remove ramo GC inteiro e assume explicação temporal integral
+20;3;2;4;2;Identifica busca porém apaga também GC e controles funcionais
+21;3;2;4;2;Busca removida junto com lógica GC sem substituição funcional
+22;;;4;3;Abstenção prudente porém orientação prática insuficiente
+23;;;4;3;Encaminha inspeção do método sem inventar implementação
+24;3;2;2;2;Lista incompleta e o texto trata arrays como imutáveis
+25;1;2;2;1;Escapes e JSON contaminam código com registro parcial e mudanças extras
+26;3;2;3;2;Reduz busca mas altera GC materiais e valores padrão sem necessidade
+27;3;2;3;2;Registro parcial não replica busca e mantém varreduras repetidas
+28;1;1;2;1;Duas substituições incompatíveis e soma temporal sem sustentação
+29;1;2;3;1;Código escapado e diagnóstico principal mira ramo inativo
+30;1;3;3;1;Preserva exatamente buscas alocadoras da cena CPU
+31;3;3;3;2;Suprime lógica GC em vez de preservar função com menor custo
+32;3;2;4;2;Explica condicionalmente mas remove dois subsistemas
+33;1;1;3;1;Código escapado substitui script e promete eliminar todo lixo
+34;1;2;2;1;JSON misturado ao código e registro ignora objetos vazios
+35;1;1;3;1;Escapes e buffer inventado com atribuição excessiva ao GC
+36;1;1;3;1;Perde namespace campos e métodos para executar tarefa inventada
+37;;;3;2;Abstenção válida mas threads e corrotinas sugeridas sem limitações
+38;;;3;3;Reutilização é útil porém inferência GC maior que CPU é excessiva
+39;1;1;2;1;Classes inventadas e lista estática não integrada ao problema
+40;3;2;3;2;Reduz GC mas altera cores materiais padrões e remove CPU

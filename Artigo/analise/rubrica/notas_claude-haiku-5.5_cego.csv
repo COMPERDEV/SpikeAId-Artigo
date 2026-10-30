@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;4;3;abstenção correta, explica bem mas sem ação concreta
+2;4;4;4;4;remove FindObjects e concatenação do Update, sem refatorar a classe
+3;;;4;3;abstenção correta, explicação do GC boa mas sem ação
+4;3;3;4;3;GC corrigido com StringBuilder, achado CPU inerte em classe nova
+5;1;1;4;1;reescreve a cena com outro laço, não ataca a causa
+6;1;1;4;1;linha única com \n literal, troca o script por código sem relação
+7;3;3;4;3;CPU corrigido em linha única, GC sem código e defaults alterados
+8;4;4;4;4;remove concatenação e arrays do Update, GC bem atacado
+9;4;4;4;4;esvazia bloco de GC no Update, correção direta
+10;;;4;3;abstenção correta, explica GC e o percentual do pico, sem ação
+11;;;4;3;abstenção correta, orienta reutilizar estruturas de forma genérica
+12;4;4;4;4;remove varredura e concatenação do Update, classe intacta
+13;1;1;4;1;reescreve a classe com buffers sem relação com a causa
+14;;;4;3;abstenção correta, manda abrir o script de forma genérica
+15;4;2;4;3;StringBuilder corrige GC, registro de CPU não aplicado, perde BuildOverdrawLayers
+16;1;1;4;1;código em linha única que substitui o script por buffer ocioso
+17;1;1;4;1;reescrita em linha única sem tratar a causa de CPU
+18;;;3;3;abstenção correta, mede bem o peso do GC mas explicação confusa
+19;4;4;4;4;esvazia bloco de GC no Update, em linha única
+20;4;4;4;4;remove FindObjects e concatenação do Update, resolve CPU
+21;4;4;4;4;esvazia blocos de CPU e GC no Update, sem refatoração real
+22;;;3;3;abstenção, explicação vaga sem ação
+23;;;4;3;abstenção correta, manda revisar o Update no script
+24;4;3;4;4;classe completa, remove FindObjects e concatenação
+25;3;3;3;2;código útil preso em JSON, formatação quebrada e loop residual
+26;4;3;4;4;classe completa com StringBuilder e sem FindObjects, achados duplicados
+27;3;3;4;3;FindObjects trocado por loop com activeInHierarchy ainda caro, GC correto
+28;1;1;4;1;reescrita com buffer e throttling vazio, sem relação com a causa
+29;4;3;4;3;GC corrigido em linha única com \n literal, CPU só em comentário
+30;4;4;4;4;remove concatenação do Update, mantém varredura de CPU
+31;4;4;4;4;esvazia bloco de GC no Update, explicação clara
+32;4;4;4;4;remove FindObjects e concatenação do Update, só Update alterado
+33;1;1;4;1;reescreve classe com buffers, sem relação com o script
+34;3;3;3;2;JSON vazado no código, GC correto e loop de CPU sem efeito
+35;1;1;4;1;reescreve com buffer de bytes, sem relação com a causa, \n literal
+36;1;1;4;1;reescrita em linha única com cálculo não relacionado
+37;;;4;2;abstenção, sugere threads o que é arriscado em Unity
+38;;;4;3;abstenção correta, orienta identificar alocações no Update
+39;1;1;4;1;duas classes novas sem relação com a cena, causa de CPU mal atribuída
+40;4;3;4;4;classe completa com StringBuilder, troca _Color por _BaseColor sem pedido

@@ -20,6 +20,22 @@ node Artigo/analise/qual/build_packet.js Artigo/analise/rubrica
 
 Se a Unity estiver em outro lugar: `UNITY="D:/Unity/6000.4.6f1/Editor" bash .../compile.sh`.
 
+### Rubrica (H1–H4)
+
+As notas já estão em `rubrica/`. Para refazer a Tabela 4:
+
+```
+node Artigo/analise/qual/rubrica.js Artigo/analise/rubrica/gpt Artigo/analise/rubrica
+node Artigo/analise/qual/rubrica_final.js Artigo/analise/rubrica/adjudicacao_autor.csv
+```
+
+Avaliadores: gpt-6-astra, gpt-6.1-sol e gpt-6-luna (OpenAI, no Codex; `rubrica/gpt/`, com o prompt
+comum em `prompt_analise.md`) e Claude Opus, Sonnet e Haiku 5.5 em sessões isoladas
+(`notas_claude-*_cego.csv`). A nota de cada laudo é a mediana dos seis; nos 8 laudos mais
+divergentes vale a adjudicação do autor (`adjudicacao_autor.csv`, feita em
+`Avaliacao_8_laudos.html`). `notas_claude-opus-5.5.csv` é da sessão que ajudou a montar o
+experimento e fica fora da mediana.
+
 ## O que cada saída é
 
 | Arquivo | Conteúdo |

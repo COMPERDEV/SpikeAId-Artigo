@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avaliação dos 8 laudos</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mute:#6b6b66;--line:#e2e1dc;--ok:#1f7a4d;--okbg:#e5f4ec;--bad:#b3261e;--badbg:#fbe9e7;--na:#77736a;--nabg:#efeeea;--acc:#1b6f74;--code:#f1f0ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--panel:#1f1f1d;--ink:#ecebe6;--mute:#a3a29b;--line:#34332f;--ok:#6fd3a0;--okbg:#18332a;--bad:#ff8a80;--badbg:#3a1d1b;--na:#a7a49b;--nabg:#2a2926;--acc:#6cc9cf;--code:#262624}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header h1{font-size:16px;margin:0 8px 0 0}
+main{padding:16px;max-width:1400px;margin:0 auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:12px}
+.two{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 8px}
+.chip{font-size:12px;padding:1px 7px;border-radius:10px}
+.chip.ok{background:var(--okbg);color:var(--ok)} .chip.bad{background:var(--badbg);color:var(--bad)} .chip.na{background:var(--nabg);color:var(--na)}
+.lbl{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-top:8px}
+.tipo{font-weight:600;color:var(--acc);margin-top:6px}
+pre{background:var(--code);border-radius:6px;padding:8px;overflow:auto;max-height:360px;font:12px/1.45 ui-monospace,Consolas,monospace;white-space:pre}
+pre.wrap{white-space:pre-wrap;word-break:break-word}
+p{margin:2px 0 6px}
+.mute{color:var(--mute);font-size:13px}
+details summary{cursor:pointer;color:var(--acc)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+th{background:var(--nabg)}
+td.n{text-align:center;width:34px}
+.crit{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.anch{font-size:12px;color:var(--mute)}
+.scale{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.scale label{border:1px solid var(--line);border-radius:6px;padding:3px 10px;cursor:pointer}
+.scale label.dis{opacity:.4;cursor:not-allowed}
+.btn{border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;font:inherit}
+.btn.sec{background:transparent;color:var(--acc)}
+.prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden;flex:1;min-width:120px}
+.prog i{display:block;height:100%;background:var(--acc)}
+textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px;width:100%}
+dl{margin:0} dt{font-weight:600;margin-top:6px} dd{margin:0 0 4px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Avaliação humana dos 8 laudos divergentes</h1>
+  <div class="prog"><i></i></div><span class="mute" id="pt"></span>
+  <button class="btn sec" id="prev">◀</button><button class="btn sec" id="next">▶</button>
+  <button class="btn" id="exp">Exportar CSV</button>
+</header>
+<main>
+  <details class="panel" id="como"><summary><b>Como avaliar (leia uma vez)</b></summary>
+    <p>Os modelos de IA discordaram em pelo menos dois pontos de nota nestes 8 laudos. Você decide a nota final de cada critério. Leia a telemetria, o laudo, os fatos objetivos do código e os argumentos das IAs; depois escolha a nota que você acha mais justa. As IAs podem errar: os fatos objetivos foram verificados por compilação e por regra, os comentários delas não. Se não souber julgar um critério, marque <b>"não sei"</b> — isso é uma resposta válida e fica registrado como tal.</p>
+    <dl>
+      <dt>O script de teste</dt><dd>StressTestScene.cs cria gargalos de propósito. Cada opção (stressCpu, stressGc, stressDraw) liga um tipo de carga. A "Cena do caso" diz quais estavam ligadas naquela gravação — o modelo que escreveu o laudo <b>não</b> sabia disso.</dd>
+      <dt>FindObjectsOfType</dt><dd>Procura todos os objetos da cena. Chamar isso muitas vezes por quadro é caro (CPU) e ainda cria listas novas na memória (lixo).</dd>
+      <dt>Coleta de lixo (GC)</dt><dd>Quando o código cria objetos temporários (textos somados com +, listas novas), a Unity precisa parar para limpar a memória. gc_collect_ms é quanto essa limpeza custou no quadro.</dd>
+      <dt>StringBuilder</dt><dd>Forma de montar texto sem criar uma cópia nova a cada soma. Reduz o lixo da concatenação, mas não resolve outras alocações (como os blocos new object[10000]).</dd>
+      <dt>"Remover" vs "otimizar"</dt><dd>Apagar o código caro tira o custo, mas o script deixa de fazer o que fazia (o campo do Inspector perde efeito). É aqui que as IAs mais discordam: quanto isso vale em H1 (resolve a causa?) e em H2 (preserva o script?).</dd>
+      <dt>Código "numa linha só, com \n literal"</dt><dd>O modelo escreveu as quebras de linha como texto. Colado assim na Unity, não compila. As IAs discordam quanto crédito dar à ideia quando a entrega não funciona.</dd>
+    </dl>
+    <table><tr><th>Critério</th><th>1</th><th>3</th><th>5</th></tr>
+      <tr><td>H1 Pertinência da correção</td><td>corrige outra coisa, ou nada</td><td>ataca a causa, mas incompleta ou com efeito colateral</td><td>ataca exatamente a causa e reduziria o custo medido</td></tr>
+      <tr><td>H2 Preservação do script</td><td>reescreve e perde funções ou campos</td><td>mantém o essencial, com mudanças não pedidas</td><td>muda só o necessário</td></tr>
+      <tr><td>H3 Clareza didática</td><td>jargão, confuso ou errado</td><td>compreensível com esforço</td><td>um iniciante entende o porquê e o que fazer</td></tr>
+      <tr><td>H4 Utilidade para o iniciante</td><td>levaria a erro</td><td>neutro</td><td>resolveria o problema com este laudo</td></tr></table>
+  </details>
+  <div id="body"></div>
+  <details class="panel"><summary>Script original StressTestScene.cs</summary><pre id="orig"></pre></details>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+const el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (n === 'class') e.className = v; else if (n === 'text') e.textContent = v; else e.setAttribute(n, v); } for (const c of k) if (c != null) e.append(c); return e; };
+const chip = (t, k, title) => el('span', { class: 'chip ' + k, text: t, ...(title ? { title } : {}) });
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } } };
+const BS = String.fromCharCode(92);
+let notas = store.get('adj.notas', {}), pos = store.get('adj.pos', 0);
+document.getElementById('orig').textContent = DATA.original;
+if (!store.get('adj.vistoComo', false)) { document.getElementById('como').open = true; store.set('adj.vistoComo', true); }
+const temCodigo = L => L.findings.some(f => f.codigo.trim());
+const CRIT = [['H1', 'Pertinência da correção', true], ['H2', 'Preservação do script', true], ['H3', 'Clareza didática', false], ['H4', 'Utilidade para o iniciante', false]];
+function completo(L) { const n = notas[L.n] || {}; return CRIT.every(([k, , so]) => (so && !temCodigo(L)) || n[k]); }
+function draw() {
+  const L = DATA.laudos[pos]; store.set('adj.pos', pos);
+  const done = DATA.laudos.filter(completo).length;
+  document.querySelector('.prog i').style.width = (100 * done / DATA.laudos.length) + '%';
+  document.getElementById('pt').textContent = `${done} de ${DATA.laudos.length} completos · laudo ${pos + 1}/${DATA.laudos.length}`;
+  const left = el('div', { class: 'panel' }, el('h2', { text: `Laudo ${L.n} · caso ${L.caso}` }), el('p', { class: 'mute', text: 'Cena do caso: ' + L.cena }),
+    el('details', {}, el('summary', { text: 'Telemetria enviada ao modelo' }), el('pre', { class: 'wrap', text: L.telemetria })));
+  L.findings.forEach((f, i) => {
+    left.append(el('div', { class: 'tipo', text: `Achado ${i + 1} · ${f.tipo}` }), el('div', { class: 'lbl', text: 'Causa raiz' }), el('p', { text: f.causa }), el('div', { class: 'lbl', text: 'Código refatorado' }));
+    if (!f.codigo.trim()) left.append(el('p', { class: 'mute', text: '(vazio)' }));
+    else {
+      if (f.q) { const q = f.q, cs = el('div', { class: 'chips' });
+        cs.append(chip({ classe_original: 'reescreve a classe inteira', metodo: 'reescreve só o método', trecho: 'trecho solto', outra_classe: 'cria uma classe nova' }[q.forma] || q.forma, 'na'));
+        cs.append(q.compila ? chip('compila aplicado ao projeto', 'ok') : chip('NÃO compila como entregue', 'bad'));
+        cs.append(q.defeito ? chip('tira do Update o defeito ligado na cena', 'ok') : chip('o defeito ligado na cena continua no Update', 'bad'));
+        if (q.campos === true) cs.append(chip('mantém os 14 campos públicos', 'ok')); else if (q.campos === false) cs.append(chip('perde campos: ' + q.perdidos.join(', '), 'bad'));
+        left.append(el('div', { class: 'lbl', text: 'Fatos objetivos (verificados por compilação e por regra)' }), cs); }
+      const single = !f.codigo.includes('\n') || (f.codigo.includes(BS + 'n') && f.codigo.split('\n').length < 4);
+      if (single && f.codigo.includes(BS + 'n')) left.append(el('p', { class: 'mute', text: '⚠ Veio numa linha só, com \\n literal; abaixo as quebras foram restauradas só para leitura.' }));
+      left.append(el('pre', { text: single ? f.codigo.split(BS + 'n').join('\n').split(BS + '"').join('"') : f.codigo }));
+    }
+    left.append(el('div', { class: 'lbl', text: 'Explicação didática' }), el('p', { text: f.expl }));
+  });
+  const t = el('table', {}, el('tr', {}, el('th', { text: 'Avaliador' }), el('th', { text: 'H1' }), el('th', { text: 'H2' }), el('th', { text: 'H3' }), el('th', { text: 'H4' }), el('th', { text: 'Argumento' })));
+  for (const a of L.ias) t.append(el('tr', {}, el('td', { text: a.nome }), ...['H1', 'H2', 'H3', 'H4'].map(k => el('td', { class: 'n', text: a[k] || '—' })), el('td', { text: a.c })));
+  const n = notas[L.n] = notas[L.n] || {};
+  const form = el('div');
+  for (const [k, nome, so] of CRIT) {
+    const dis = so && !temCodigo(L), sc = el('div', { class: 'scale' });
+    for (const v of ['1', '2', '3', '4', '5', 'não sei']) { const inp = el('input', { type: 'radio', name: k, value: v }); if (n[k] === v) inp.checked = true; if (dis) inp.disabled = true;
+      inp.onchange = () => { n[k] = v; store.set('adj.notas', notas); draw(); }; sc.append(el('label', { class: dis ? 'dis' : '' }, inp, ' ' + v)); }
+    form.append(el('div', { class: 'crit' }, el('b', { text: `${k} · ${nome}${dis ? ' — não se aplica (sem código)' : ''}` }), sc));
+  }
+  const com = el('textarea', { rows: 3, placeholder: 'por que esta nota? (opcional)' }); com.value = n.obs || ''; com.oninput = () => { n.obs = com.value; store.set('adj.notas', notas); };
+  form.append(com);
+  const right = el('div', {}, el('div', { class: 'panel' }, el('h3', { text: 'O que as IAs disseram' }), t), el('div', { class: 'panel' }, el('h3', { text: 'Sua nota final' }), form));
+  document.getElementById('body').replaceChildren(el('div', { class: 'two' }, left, right));
+}
+document.getElementById('prev').onclick = () => { pos = (pos + DATA.laudos.length - 1) % DATA.laudos.length; draw(); scrollTo(0, 0); };
+document.getElementById('next').onclick = () => { pos = (pos + 1) % DATA.laudos.length; draw(); scrollTo(0, 0); };
+document.getElementById('exp').onclick = () => {
+  const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  let csv = 'laudo;H1;H2;H3;H4;comentario\n';
+  for (const L of DATA.laudos) { const n = notas[L.n] || {}; csv += [L.n, n.H1 || '', n.H2 || '', n.H3 || '', n.H4 || '', q(n.obs)].join(';') + '\n'; }
+  const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })), download: 'adjudicacao_autor.csv' }); document.body.append(a); a.click(); a.remove();
+};
+draw();
+</script>
+</body>
+</html>

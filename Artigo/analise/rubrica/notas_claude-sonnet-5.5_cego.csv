@@ -1,0 +1,41 @@
+laudo;H1;H2;H3;H4;comentario
+1;;;3;2;sem código e sem nomear a causa,  manda investigar o Update
+2;3;3;4;3;remove a varredura e o concat deixando blocos vazios,  perde a função do teste
+3;;;4;2;abstenção coerente mas genérica,  não aponta concat nem arrays
+4;3;2;4;3;StringBuilder correto mas descarta arrays e muda padrões,  achado 2 com classe inventada
+5;1;1;3;1;script inventado que substitui a classe inteira,  ignora FindObjectsOfType
+6;1;1;3;1;classe inventada em uma linha com \n literal,  não compila colado
+7;2;2;3;2;remove a varredura mas reescreve o script,  uma linha com \n,  achado 2 só comentário
+8;2;3;3;2;remove concat mas mantém FindObjectsOfType que gera o lixo na cena cpu
+9;3;3;4;3;remove alocações do GC por deleção,  preserva o resto do Update
+10;;;3;2;abstenção sem código,  explicação genérica de GC
+11;;;3;2;abstenção sem código,  diagnóstico correto mas pouco acionável
+12;3;2;3;3;remove varredura e concat do Update,  perde a função do teste
+13;1;1;3;1;script inventado com buffers,  não tem relação com o código real
+14;;;3;2;abstenção,  manda abrir o script sem indicar o que procurar
+15;3;2;4;2;StringBuilder bom mas remove BuildOverdrawLayers,  achado 2 com registro inventado
+16;1;1;3;1;classe inventada minificada em uma linha,  sem relação com o script
+17;1;1;3;1;classe inventada com \n literal,  não corrige a causa real
+18;;;3;2;abstenção honesta mas sem causa nem ação concreta
+19;3;3;4;3;remove alocações GC no Update em uma linha que compila,  deleção
+20;3;2;4;3;remove a varredura apagando também o bloco de GC
+21;3;3;3;3;blocos vazios com comentários,  ataca a causa por deleção
+22;;;2;2;abstenção,  explicação só diz que Update é pesado
+23;;;3;2;abstenção,  manda abrir o script sem pista
+24;3;2;3;2;apaga os blocos de stress,  lista rastreada inútil e explicação não bate com o código
+25;2;2;2;1;saída quebrada com JSON vazado e \n literal,  ideia razoável mas inutilizável
+26;3;2;3;3;varredura removida e StringBuilder,  reescreve o script inteiro,  achado 2 repete código
+27;4;3;4;3;troca FindObjectsOfType por lista cache e StringBuilder,  mudanças extras e padrões alterados
+28;1;1;3;1;scripts inventados,  achado 2 com throttling vazio
+29;2;2;4;2;StringBuilder correto mas em uma linha com \n e aspas escapadas,  achado 2 só comentário
+30;2;3;3;2;remove concat mas mantém varredura,  uma linha,  corrige parte da causa
+31;3;3;4;3;remove alocações GC por deleção,  preserva o resto
+32;3;2;4;3;remove varredura e concat,  explica cache como alternativa
+33;1;1;3;1;classe inventada em uma linha,  não toca o script real
+34;2;2;2;1;JSON vazado e aspas sem escape,  explicação final é placeholder
+35;1;1;3;1;classe inventada em uma linha,  sem relação com o script
+36;1;1;3;1;classe inventada sem namespace em uma linha,  ignora a varredura
+37;;;3;2;abstenção,  sugestões genéricas como threads e corrotinas
+38;;;4;2;abstenção clara e coerente,  sem ação concreta
+39;1;1;3;1;classes inventadas e renomeadas,  nenhuma relação com o script
+40;3;3;4;3;StringBuilder correto mas descarta arrays e troca propriedade de cor,  achado 2 comentado
